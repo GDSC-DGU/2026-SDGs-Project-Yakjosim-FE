@@ -112,23 +112,23 @@ docs/
 
 상세 UX/UI 문서는 아래에서 확인할 수 있습니다.
 
-- [UX/UI README](/Users/dongminbaek/Documents/gdgoc3rd/GDGoC프로젝트/demoday/Medication Interaction Guide App/docs/ux-ui/README.md)
-- [Project Overview](/Users/dongminbaek/Documents/gdgoc3rd/GDGoC프로젝트/demoday/Medication Interaction Guide App/docs/ux-ui/00-project-overview.md)
-- [Current State](/Users/dongminbaek/Documents/gdgoc3rd/GDGoC프로젝트/demoday/Medication Interaction Guide App/docs/ux-ui/01-current-state.md)
-- [Design System](/Users/dongminbaek/Documents/gdgoc3rd/GDGoC프로젝트/demoday/Medication Interaction Guide App/docs/ux-ui/02-design-system.md)
-- [Page Improvements](/Users/dongminbaek/Documents/gdgoc3rd/GDGoC프로젝트/demoday/Medication Interaction Guide App/docs/ux-ui/03-page-improvements.md)
-- [Priority Backlog](/Users/dongminbaek/Documents/gdgoc3rd/GDGoC프로젝트/demoday/Medication Interaction Guide App/docs/ux-ui/04-priority-backlog.md)
-- [AI Collaboration Guide](/Users/dongminbaek/Documents/gdgoc3rd/GDGoC프로젝트/demoday/Medication Interaction Guide App/docs/ux-ui/05-ai-collaboration-guide.md)
+- [UX/UI README](./docs/ux-ui/README.md)
+- [Project Overview](./docs/ux-ui/00-project-overview.md)
+- [Current State](./docs/ux-ui/01-current-state.md)
+- [Design System](./docs/ux-ui/02-design-system.md)
+- [Page Improvements](./docs/ux-ui/03-page-improvements.md)
+- [Priority Backlog](./docs/ux-ui/04-priority-backlog.md)
+- [AI Collaboration Guide](./docs/ux-ui/05-ai-collaboration-guide.md)
 
 ## Recommended First Tasks
 
 1. `seniorMode`를 실제 루트 DOM에 연결
-2. 하단 고정 CTA 패턴 공통화 -> 이건 직접 한번 살펴봐야할 것 같아요.
+2. 하단 고정 CTA 패턴 공통화
 3. 검색 결과 없음/로딩/선택 상태 정리
 4. 결과 화면에서 고위험 정보 우선순위 강화
 
 ## Notes
 
-- 현재 `package.json`에는 `dev`, `build`만 정의되어 있습니다.
-- `lint`, `test`, `preview` 스크립트는 아직 없습니다.
+- 현재 `package.json`에는 `dev`, `build`, `lint`, `lint:fix`가 정의되어 있습니다.
+- `test`, `preview` 스크립트는 아직 없습니다.
 - 이 앱은 의료 안전 정보를 다루므로, 시각적 화려함보다 명확한 정보 전달과 접근성이 우선입니다.
