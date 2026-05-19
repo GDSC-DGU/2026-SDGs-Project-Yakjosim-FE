@@ -1,0 +1,71 @@
+/* Risk-level design tokens — extend the project theme without overriding existing variables. */
+:root {
+  --risk-danger: #DC2626;
+  --risk-danger-fg: #FFFFFF;
+  --risk-danger-bg: #FEE2E2;
+
+  --risk-warning: #F59E0B;
+  --risk-warning-fg: #78350F;
+  --risk-warning-bg: #FEF3C7;
+
+  --risk-interval: #3B82F6;
+  --risk-interval-fg: #1E3A8A;
+  --risk-interval-bg: #DBEAFE;
+
+  --risk-consult: #8B5CF6;
+  --risk-consult-fg: #4C1D95;
+  --risk-consult-bg: #EDE9FE;
+
+  --risk-unknown: #6B7280;
+  --risk-unknown-fg: #1F2937;
+  --risk-unknown-bg: #F3F4F6;
+}
+
+.dark {
+  --risk-danger-bg: #450A0A;
+  --risk-danger-fg: #FCA5A5;
+  --risk-warning-bg: #451A03;
+  --risk-warning-fg: #FCD34D;
+  --risk-interval-bg: #172554;
+  --risk-interval-fg: #93C5FD;
+  --risk-consult-bg: #2E1065;
+  --risk-consult-fg: #C4B5FD;
+  --risk-unknown-bg: #1F2937;
+  --risk-unknown-fg: #D1D5DB;
+}
+
+@theme inline {
+  --color-risk-danger: var(--risk-danger);
+  --color-risk-danger-fg: var(--risk-danger-fg);
+  --color-risk-danger-bg: var(--risk-danger-bg);
+  --color-risk-warning: var(--risk-warning);
+  --color-risk-warning-fg: var(--risk-warning-fg);
+  --color-risk-warning-bg: var(--risk-warning-bg);
+  --color-risk-interval: var(--risk-interval);
+  --color-risk-interval-fg: var(--risk-interval-fg);
+  --color-risk-interval-bg: var(--risk-interval-bg);
+  --color-risk-consult: var(--risk-consult);
+  --color-risk-consult-fg: var(--risk-consult-fg);
+  --color-risk-consult-bg: var(--risk-consult-bg);
+  --color-risk-unknown: var(--risk-unknown);
+  --color-risk-unknown-fg: var(--risk-unknown-fg);
+  --color-risk-unknown-bg: var(--risk-unknown-bg);
+}
+
+/* ─── Breakpoint tokens ──────────────────────────────────────
+ * Single source of truth for responsive thresholds.
+ * mobile   : 0      – 719px
+ * tablet   : 720px  – 1439px
+ * desktop  : 1440px – ∞
+ * Update these variables to retune the entire app. JS reads them
+ * via getComputedStyle in useBreakpoint().
+ * ──────────────────────────────────────────────────────────── */
+:root {
+  --bp-tablet: 720px;
+  --bp-desktop: 1440px;
+}
+
+/* Senior mode: increases the root font-size variable used by the project (theme.css sets `html { font-size: var(--font-size) }`). All rem-based sizing scales together. */
+:root[data-senior="true"] {
+  --font-size: 24px;
+}
