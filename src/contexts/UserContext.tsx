@@ -7,6 +7,8 @@ interface UserState {
   hasCompletedOnboarding: boolean;
   savedMedicines: SavedMedicine[];
   savedSessions: SavedSession[];
+  // CSS support exists in styles/globals.css via `:root[data-senior="true"]`,
+  // but the app shell still needs to sync this flag onto the root element.
   seniorMode: boolean;
 }
 

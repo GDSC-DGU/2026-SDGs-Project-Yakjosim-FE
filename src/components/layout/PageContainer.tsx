@@ -20,6 +20,8 @@ export function PageContainer({
   return (
     <div className="flex min-h-screen flex-col bg-gray-50">
       <AppHeader title={title} showBackButton={showBackButton} />
+      {/* When bottom nav is visible, reserve vertical space for it here.
+          Pages with their own fixed CTA still need extra bottom padding in page content. */}
       <main className={`flex-1 px-4 py-4 ${showBottomNav ? 'pb-20' : ''} ${className}`}>
         {children}
       </main>
