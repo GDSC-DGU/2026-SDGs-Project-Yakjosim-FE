@@ -55,12 +55,25 @@ export function useAnalysis() {
       });
     }
 
+    const isFoodOnlySelection =
+      analysisState.selectedFoods.length > 0 &&
+      medicineState.selectedMedicines.length === 0 &&
+      analysisState.selectedSupplements.length === 0;
+
     if (items.length < 2) {
       analysisDispatch({
         type: 'SET_ERROR',
         payload: '분석하려면 최소 2개 이상의 항목을 선택하세요.',
       });
-      return;
+      return false;
+    }
+
+    if (isFoodOnlySelection) {
+      analysisDispatch({
+        type: 'SET_ERROR',
+        payload: '음식만으로는 분석할 수 없습니다. 약 또는 영양제를 함께 선택해 주세요.',
+      });
+      return false;
     }
 
     analysisDispatch({ type: 'SET_ANALYZING', payload: true });
@@ -68,11 +81,13 @@ export function useAnalysis() {
     try {
       const session = await analyzeInteractions(items);
       analysisDispatch({ type: 'SET_SESSION', payload: session });
+      return true;
     } catch {
       analysisDispatch({
         type: 'SET_ERROR',
         payload: '분석 중 오류가 발생했습니다. 다시 시도해 주세요.',
       });
+      return false;
     }
   }, [medicineState.selectedMedicines, analysisState.selectedFoods, analysisState.selectedSupplements, analysisDispatch]);
 
