@@ -4,15 +4,15 @@
 
 ## Overview
 
-이 프로젝트는 사용자가 복용 중인 약과 함께 먹는 음식, 영양제를 조합해 상호작용 위험도를 빠르게 확인할 수 있도록 만든 프론트엔드 앱입니다.
+이 프로젝트는 비회원 사용자가 약, 음식, 영양제 조합의 상호작용 위험도를 빠르게 확인할 수 있도록 만든 프론트엔드 MVP입니다.
 
 ## Key Features
 
-- 약 검색 후 복용 목록 구성
-- 처방전 이미지 기반 OCR 흐름
+- 서비스 동의 후 기본 정보 입력
+- 약 검색 및 OCR 보조 검색
 - 약 + 음식 + 영양제 조합 분석
-- 위험도별 결과 요약 및 상세 안내
-- 분석 기록 저장, 공유, 마이페이지 관리
+- 위험도 3단계 요약 및 상세 안내
+- 결과 이미지/PDF 저장 및 공유
 
 ## Quick Start
 
@@ -65,16 +65,17 @@ pnpm lint
 
 ```mermaid
 flowchart LR
-    A[온보딩] --> B[홈]
-    B --> C[약 검색]
-    B --> D[처방전 인식]
-    C --> E[조합 선택]
-    D --> E
-    E --> F[분석 결과]
-    F --> G[상세 정보]
-    F --> H[공유]
-    B --> I[마이페이지]
-    B --> J[설정]
+    A[서비스 안내 및 동의] --> B[기본 정보 입력]
+    B --> C{바로 분석할까요?}
+    C -->|예| D[분석]
+    C -->|둘러보기| E[홈]
+    E --> F[약 검색]
+    E --> D
+    F --> D
+    D --> G[분석 결과]
+    G --> H[상세 정보]
+    G --> I[공유]
+    E --> J[설정]
 ```
 
 
@@ -97,6 +98,7 @@ src/
   styles/                    # Tailwind, theme, globals
   types/                     # 도메인 타입
 docs/
+  specs/                     # 최신 기능 명세서
   ux-ui/                     # UX/UI 핸드오프 문서
 ```
 
@@ -112,6 +114,7 @@ docs/
 
 상세 UX/UI 문서는 아래에서 확인할 수 있습니다.
 
+- [Functional Spec v2](./docs/specs/functional-spec-v2.md)
 - [UX/UI README](./docs/ux-ui/README.md)
 - [Project Overview](./docs/ux-ui/00-project-overview.md)
 - [Current State](./docs/ux-ui/01-current-state.md)
@@ -122,13 +125,14 @@ docs/
 
 ## Recommended First Tasks
 
-1. `seniorMode`를 실제 루트 DOM에 연결
-2. 하단 고정 CTA 패턴 공통화
-3. 검색 결과 없음/로딩/선택 상태 정리
-4. 결과 화면에서 고위험 정보 우선순위 강화
+1. `functional-spec-v2` 기준으로 온보딩/홈/분석 흐름 정렬
+2. `seniorMode`를 실제 루트 DOM에 연결
+3. 홈 검색창 제거 및 랜딩 섹션 재구성
+4. 결과 화면에서 `금기/주의/확인 정보 없음` 3단계 기준 정리
 
 ## Notes
 
 - 현재 `package.json`에는 `dev`, `build`, `lint`, `lint:fix`가 정의되어 있습니다.
 - `test`, `preview` 스크립트는 아직 없습니다.
 - 이 앱은 의료 안전 정보를 다루므로, 시각적 화려함보다 명확한 정보 전달과 접근성이 우선입니다.
+- 현재 개발 기준 문서는 [`docs/specs/functional-spec-v2.md`](/Users/eun/dev/GDGoC/demo_day/docs/specs/functional-spec-v2.md:1)입니다.

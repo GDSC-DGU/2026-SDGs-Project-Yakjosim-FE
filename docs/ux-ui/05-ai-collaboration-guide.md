@@ -86,6 +86,7 @@ flowchart TD
 
 ## AI에게 반드시 같이 알려줘야 하는 정보
 
+- 현재 기준 명세서 경로: `docs/specs/functional-spec-v2.md`
 - 현재 기술 스택
 - 유지해야 할 컴포넌트 구조
 - 수정 가능한 파일 범위
@@ -140,7 +141,7 @@ flowchart TD
 
 ## 추천 작업 루틴
 
-1. 문서에서 문제 정의 확인
+1. `docs/specs/functional-spec-v2.md`에서 현재 범위 확인
 2. 관련 파일 직접 읽기
 3. AI에게 제한 조건과 파일 경로 포함해서 요청
 4. 초안 중 필요한 부분만 수용
