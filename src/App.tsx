@@ -1,4 +1,5 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router';
+import { Toaster } from 'sonner';
 import { MedicineProvider } from '@/contexts/MedicineContext';
 import { AnalysisProvider } from '@/contexts/AnalysisContext';
 import { UserProvider, useUserContext } from '@/contexts/UserContext';
@@ -11,13 +12,27 @@ import CombinationPage from '@/pages/CombinationPage';
 import ResultsPage from '@/pages/ResultsPage';
 import DetailPage from '@/pages/DetailPage';
 import SharePage from '@/pages/SharePage';
-import MyPage from '@/pages/MyPage';
 import SettingsPage from '@/pages/SettingsPage';
+
+const ONBOARDING_REDIRECT_KEY = 'yak-josim-onboarding-redirect';
+
+function getOnboardingRedirectPath() {
+  const fallbackPath = '/home';
+
+  try {
+    const path = window.sessionStorage.getItem(ONBOARDING_REDIRECT_KEY);
+    window.sessionStorage.removeItem(ONBOARDING_REDIRECT_KEY);
+
+    return path === '/combine' || path === '/home' ? path : fallbackPath;
+  } catch {
+    return fallbackPath;
+  }
+}
 
 function OnboardingGuard() {
   const { state } = useUserContext();
   if (state.hasCompletedOnboarding) {
-    return <Navigate to="/home" replace />;
+    return <Navigate to={getOnboardingRedirectPath()} replace />;
   }
   return <OnboardingPage />;
 }
@@ -33,7 +48,6 @@ function AppRoutes() {
       <Route path="/results" element={<ResultsPage />} />
       <Route path="/detail/:resultId" element={<DetailPage />} />
       <Route path="/share/:sessionId" element={<SharePage />} />
-      <Route path="/mypage" element={<MyPage />} />
       <Route path="/settings" element={<SettingsPage />} />
     </Routes>
   );
@@ -46,6 +60,18 @@ export default function App() {
         <MedicineProvider>
           <AnalysisProvider>
             <AppRoutes />
+            <Toaster
+              position="top-center"
+              richColors
+              toastOptions={{
+                classNames: {
+                  toast:
+                    'rounded-2xl border border-gray-200 bg-white text-gray-900 shadow-lg',
+                  title: 'text-sm font-medium',
+                  description: 'text-sm text-gray-600',
+                },
+              }}
+            />
           </AnalysisProvider>
         </MedicineProvider>
       </UserProvider>
