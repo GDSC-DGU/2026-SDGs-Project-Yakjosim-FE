@@ -1,5 +1,5 @@
 import { useState, useRef } from 'react';
-import { useNavigate } from 'react-router';
+import { useNavigate, useSearchParams } from 'react-router';
 import { Camera, Upload, Check, AlertTriangle, X, Loader2 } from 'lucide-react';
 import { Button } from '@/app/components/ui/button';
 import { Card, CardContent } from '@/app/components/ui/card';
@@ -10,6 +10,7 @@ import { uploadPrescription, type OcrResult } from '@/services/ocrService';
 
 export default function OcrPage() {
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
   const { dispatch } = useMedicineContext();
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -17,6 +18,13 @@ export default function OcrPage() {
   const [progress, setProgress] = useState(0);
   const [ocrResults, setOcrResults] = useState<OcrResult[] | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const mode = searchParams.get('mode');
+  const isSearchMode = mode === 'search';
+
+  const pageTitle = isSearchMode ? '처방전으로 약 검색' : '처방전 인식';
+  const helperText = isSearchMode
+    ? '촬영 후 인식된 약을 확인하고 약 정보를 볼 수 있어요.'
+    : '촬영 후 인식된 약을 분석 목록에 추가할 수 있어요.';
 
   const handleFileSelect = async (file: File) => {
     if (!file.type.startsWith('image/')) {
@@ -64,6 +72,18 @@ export default function OcrPage() {
 
   const handleConfirm = () => {
     if (!ocrResults) return;
+
+    if (isSearchMode) {
+      navigate('/search', {
+        replace: true,
+        state: {
+          recognizedMedicines: ocrResults.map((result) => result.medicine),
+          viewedMedicine: ocrResults[0]?.medicine ?? null,
+        },
+      });
+      return;
+    }
+
     for (const result of ocrResults) {
       dispatch({ type: 'ADD_MEDICINE', payload: result.medicine });
     }
@@ -93,8 +113,12 @@ export default function OcrPage() {
   };
 
   return (
-    <PageContainer title="처방전 인식" showBackButton showBottomNav={false}>
+    <PageContainer title={pageTitle} showBackButton showBottomNav={false}>
       <div className="space-y-4">
+        <div className="rounded-xl border border-blue-100 bg-blue-50 px-4 py-3">
+          <p className="text-sm leading-relaxed text-blue-900">{helperText}</p>
+        </div>
+
         {/* Upload area */}
         {!ocrResults && !isUploading && (
           <div
@@ -216,7 +240,9 @@ export default function OcrPage() {
                 onClick={handleConfirm}
                 disabled={ocrResults.length === 0}
               >
-                약 목록 확정 ({ocrResults.length}개)
+                {isSearchMode
+                  ? `약 정보 확인 (${ocrResults.length}개)`
+                  : `약 목록 확정 (${ocrResults.length}개)`}
               </Button>
             </div>
           </>
