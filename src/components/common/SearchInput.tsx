@@ -55,7 +55,6 @@ export function SearchInput({
                     onMouseDown={(e) => e.preventDefault()}
                     onClick={() => {
                       onSelect(medicine);
-                      setIsFocused(false);
                     }}
                   >
                     <p className="text-sm font-medium text-gray-900">

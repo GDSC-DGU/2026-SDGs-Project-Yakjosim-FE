@@ -33,6 +33,9 @@ export function useMedicineSearch() {
   const setQuery = useCallback(
     (query: string) => {
       dispatch({ type: 'SET_SEARCH_QUERY', payload: query });
+      if (query.trim()) {
+        dispatch({ type: 'SET_SEARCHING', payload: true });
+      }
     },
     [dispatch],
   );
