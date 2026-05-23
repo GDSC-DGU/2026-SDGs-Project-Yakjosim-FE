@@ -14,8 +14,8 @@
 
 | 경로 | 파일 | 설명 |
 |------|------|------|
-| `/` | `OnboardingGuard` | 온보딩 완료 여부 체크 → 완료 시 `/home` 리다이렉트 |
-| `/` (미완료) | `OnboardingPage` | 약관 동의 + 사용자 프로필 입력 |
+| `/` | `OnboardingGuard` | 온보딩 완료 여부 체크 → 완료 시 `/home` 리다이렉트, 미완료 시 `OnboardingPage` 렌더 |
+| `/` → `OnboardingPage` | — | 약관 동의 + 사용자 프로필 입력 (별도 경로 없음, `/`에서 조건부 렌더) |
 | `/home` | `HomePage` | 서비스 소개, 분석 시작 진입점 |
 | `/search` | `SearchPage` | 약 검색 + 상세 정보 조회 |
 | `/ocr` | `OcrPage` | 처방전 촬영 → 약 인식 |
