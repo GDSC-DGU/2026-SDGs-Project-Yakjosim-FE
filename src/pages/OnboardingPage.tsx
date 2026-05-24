@@ -90,7 +90,9 @@ export default function OnboardingPage() {
   const [pendingPath, setPendingPath] = useState<'/home' | '/combine' | null>(null);
   const { dispatch } = useUserContext();
   const navigate = useNavigate();
-  const today = new Date().toISOString().split('T')[0];
+  const today = new Date(
+    Date.now() - new Date().getTimezoneOffset() * 60_000,
+  ).toISOString().split('T')[0];
 
   const isPregnant = pregnancyStatus === 'pregnant';
   const isFormValid =
