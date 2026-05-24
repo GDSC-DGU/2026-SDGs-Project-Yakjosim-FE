@@ -19,11 +19,20 @@ import { SectionCard } from '@/components/common/SectionCard';
 import { RiskBadge } from '@/components/common/RiskBadge';
 import { useUserContext } from '@/contexts/UserContext';
 import type { Severity } from '@/types';
+import type { RiskDisplaySeverity } from '@/utils/risk';
 
-const riskLevels: { severity: Severity; description: string }[] = [
-  { severity: 'critical', description: '절대 함께 복용하면 안 되는 조합입니다.' },
-  { severity: 'high', description: '시간 간격 조정이나 전문가 상담이 필요한 주의 조합입니다.' },
-  { severity: 'unknown', description: '상호작용 정보가 확인되지 않았습니다. 안전함을 의미하지 않습니다.' },
+const riskLevels: { displaySeverity: RiskDisplaySeverity; badgeSeverity: Severity; description: string }[] = [
+  { displaySeverity: 'critical', badgeSeverity: 'critical', description: '절대 함께 복용하면 안 되는 조합입니다.' },
+  {
+    displaySeverity: 'caution',
+    badgeSeverity: 'high',
+    description: '주의는 high/medium/low 위험도를 대표하며 시간 간격 조정이나 전문가 상담이 필요한 조합입니다.',
+  },
+  {
+    displaySeverity: 'unknown',
+    badgeSeverity: 'unknown',
+    description: '상호작용 정보가 확인되지 않았습니다. 안전함을 의미하지 않습니다.',
+  },
 ];
 
 export default function SettingsPage() {
@@ -60,9 +69,9 @@ export default function SettingsPage() {
         {/* Risk legend */}
         <SectionCard title="위험도 범례">
           <div className="space-y-3">
-            {riskLevels.map(({ severity, description }) => (
-              <div key={severity} className="flex items-start gap-3">
-                <RiskBadge severity={severity} />
+            {riskLevels.map(({ displaySeverity, badgeSeverity, description }) => (
+              <div key={displaySeverity} className="flex items-start gap-3">
+                <RiskBadge severity={badgeSeverity} />
                 <p className="flex-1 text-sm text-gray-600">{description}</p>
               </div>
             ))}
