@@ -1,5 +1,6 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router';
 import { Toaster } from 'sonner';
+import { ErrorBoundary } from '@/components/common/ErrorBoundary';
 import { MedicineProvider } from '@/contexts/MedicineContext';
 import { AnalysisProvider } from '@/contexts/AnalysisContext';
 import { UserProvider, useUserContext } from '@/contexts/UserContext';
@@ -57,26 +58,28 @@ function AppRoutes() {
 
 export default function App() {
   return (
-    <BrowserRouter>
-      <UserProvider>
-        <MedicineProvider>
-          <AnalysisProvider>
-            <AppRoutes />
-            <Toaster
-              position="top-center"
-              richColors
-              toastOptions={{
-                classNames: {
-                  toast:
-                    'rounded-2xl border border-gray-200 bg-white text-gray-900 shadow-lg',
-                  title: 'text-sm font-medium',
-                  description: 'text-sm text-gray-600',
-                },
-              }}
-            />
-          </AnalysisProvider>
-        </MedicineProvider>
-      </UserProvider>
-    </BrowserRouter>
+    <ErrorBoundary>
+      <BrowserRouter>
+        <UserProvider>
+          <MedicineProvider>
+            <AnalysisProvider>
+              <AppRoutes />
+              <Toaster
+                position="top-center"
+                richColors
+                toastOptions={{
+                  classNames: {
+                    toast:
+                      'rounded-2xl border border-gray-200 bg-white text-gray-900 shadow-lg',
+                    title: 'text-sm font-medium',
+                    description: 'text-sm text-gray-600',
+                  },
+                }}
+              />
+            </AnalysisProvider>
+          </MedicineProvider>
+        </UserProvider>
+      </BrowserRouter>
+    </ErrorBoundary>
   );
 }

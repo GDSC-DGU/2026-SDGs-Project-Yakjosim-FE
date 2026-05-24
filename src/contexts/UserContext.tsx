@@ -129,7 +129,11 @@ export function UserProvider({ children }: { children: ReactNode }) {
   const [state, dispatch] = useReducer(userReducer, initialState, hydrateUserState);
 
   useEffect(() => {
-    window.localStorage.setItem(USER_STORAGE_KEY, JSON.stringify(state));
+    try {
+      window.localStorage.setItem(USER_STORAGE_KEY, JSON.stringify(state));
+    } catch {
+      // 시크릿 모드 또는 저장 용량 초과 시 무시
+    }
   }, [state]);
 
   useEffect(() => {
