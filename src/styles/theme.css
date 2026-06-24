@@ -79,6 +79,10 @@
 }
 
 @theme inline {
+  /* ─── Font family ──────────────────────────────────────── */
+  --font-sans: "AritaDotumKR", "Apple SD Gothic Neo", "Noto Sans KR", system-ui, sans-serif;
+
+  /* ─── Colors ───────────────────────────────────────────── */
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
@@ -105,10 +109,6 @@
   --color-chart-3: var(--chart-3);
   --color-chart-4: var(--chart-4);
   --color-chart-5: var(--chart-5);
-  --radius-sm: calc(var(--radius) - 4px);
-  --radius-md: calc(var(--radius) - 2px);
-  --radius-lg: var(--radius);
-  --radius-xl: calc(var(--radius) + 4px);
   --color-sidebar: var(--sidebar);
   --color-sidebar-foreground: var(--sidebar-foreground);
   --color-sidebar-primary: var(--sidebar-primary);
@@ -117,6 +117,53 @@
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
+
+  /* ─── Radius ───────────────────────────────────────────── */
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+}
+
+/* ─── Typography Design Tokens (TDS-inspired scale) ─────────
+ * 7-level scale aligned with Arita weights (300/500/600/700).
+ *
+ * Level       Size   Weight  Line-height  Use case
+ * ─────────── ────── ─────── ──────────── ────────────────────
+ * display     1.75rem  700   1.3          Landing hero
+ * heading-1   1.5rem   700   1.35         Page title
+ * heading-2   1.25rem  600   1.4          Section title
+ * heading-3   1.125rem 600   1.4          Subsection title
+ * body-lg     1rem     500   1.6          Emphasis body
+ * body        0.875rem 500   1.6          Default body (= text-sm)
+ * caption     0.75rem  500   1.5          Labels, metadata (= text-xs)
+ * ──────────────────────────────────────────────────────────── */
+
+:root {
+  /* Size tokens */
+  --typo-display-size: 1.75rem;
+  --typo-h1-size: 1.5rem;
+  --typo-h2-size: 1.25rem;
+  --typo-h3-size: 1.125rem;
+  --typo-body-lg-size: 1rem;
+  --typo-body-size: 0.875rem;
+  --typo-caption-size: 0.75rem;
+
+  /* Weight tokens — maps to Arita: 300 Light / 500 Medium / 600 SemiBold / 700 Bold */
+  --typo-weight-light: 300;
+  --typo-weight-normal: 500;
+  --typo-weight-semibold: 600;
+  --typo-weight-bold: 700;
+
+  /* Line-height tokens */
+  --typo-leading-tight: 1.3;
+  --typo-leading-snug: 1.4;
+  --typo-leading-normal: 1.5;
+  --typo-leading-relaxed: 1.6;
+
+  /* Letter-spacing tokens */
+  --typo-tracking-tight: -0.01em;
+  --typo-tracking-normal: 0;
 }
 
 @layer base {
@@ -124,59 +171,60 @@
     @apply border-border outline-ring/50;
   }
 
-  body {
-    @apply bg-background text-foreground;
-    font-family: "AritaDotumKR", sans-serif;
-  }
-
-  /**
-  * Default typography styles for HTML elements (h1-h4, p, label, button, input).
-  * These are in @layer base, so Tailwind utility classes (like text-sm, text-lg) automatically override them.
-  */
-
   html {
     font-size: var(--font-size);
   }
 
+  body {
+    @apply bg-background text-foreground font-sans;
+    font-weight: var(--typo-weight-normal);
+    line-height: var(--typo-leading-relaxed);
+    letter-spacing: var(--typo-tracking-normal);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
   h1 {
-    font-size: var(--text-2xl);
-    font-weight: var(--font-weight-medium);
-    line-height: 1.5;
+    font-size: var(--typo-h1-size);
+    font-weight: var(--typo-weight-bold);
+    line-height: var(--typo-leading-tight);
+    letter-spacing: var(--typo-tracking-tight);
   }
 
   h2 {
-    font-size: var(--text-xl);
-    font-weight: var(--font-weight-medium);
-    line-height: 1.5;
+    font-size: var(--typo-h2-size);
+    font-weight: var(--typo-weight-semibold);
+    line-height: var(--typo-leading-snug);
+    letter-spacing: var(--typo-tracking-tight);
   }
 
   h3 {
-    font-size: var(--text-lg);
-    font-weight: var(--font-weight-medium);
-    line-height: 1.5;
+    font-size: var(--typo-h3-size);
+    font-weight: var(--typo-weight-semibold);
+    line-height: var(--typo-leading-snug);
   }
 
   h4 {
-    font-size: var(--text-base);
-    font-weight: var(--font-weight-medium);
-    line-height: 1.5;
+    font-size: var(--typo-body-lg-size);
+    font-weight: var(--typo-weight-semibold);
+    line-height: var(--typo-leading-normal);
   }
 
   label {
-    font-size: var(--text-base);
-    font-weight: var(--font-weight-medium);
-    line-height: 1.5;
+    font-size: var(--typo-body-size);
+    font-weight: var(--typo-weight-semibold);
+    line-height: var(--typo-leading-normal);
   }
 
   button {
-    font-size: var(--text-base);
-    font-weight: var(--font-weight-medium);
-    line-height: 1.5;
+    font-size: var(--typo-body-size);
+    font-weight: var(--typo-weight-semibold);
+    line-height: var(--typo-leading-normal);
   }
 
-  input {
-    font-size: var(--text-base);
-    font-weight: var(--font-weight-normal);
-    line-height: 1.5;
+  input, textarea, select {
+    font-size: var(--typo-body-lg-size);
+    font-weight: var(--typo-weight-normal);
+    line-height: var(--typo-leading-relaxed);
   }
 }

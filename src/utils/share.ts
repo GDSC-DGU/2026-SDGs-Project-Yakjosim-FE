@@ -132,12 +132,12 @@ function buildSessionSvg(session: AnalysisSession) {
   const cardWidth = width - 64;
   const nodes: string[] = [];
   let y = 96;
-  const titleFont = `font-family="Pretendard, Apple SD Gothic Neo, Noto Sans KR, sans-serif"`;
+  const titleFont = `font-family="AritaDotumKR, Apple SD Gothic Neo, Noto Sans KR, sans-serif"`;
 
   const { drugs, foods, supplements } = groupSessionItems(session);
 
   nodes.push(
-    `<text x="72" y="${y}" ${titleFont} font-size="34" font-weight="800" fill="#0F172A">약 조심</text>`,
+    `<text x="72" y="${y}" ${titleFont} font-size="34" font-weight="700" fill="#0F172A">약 조심</text>`,
   );
   y += 46;
   nodes.push(
@@ -209,10 +209,10 @@ function buildSessionSvg(session: AnalysisSession) {
         `<rect x="84" y="${y + 18}" width="${badgeWidth}" height="36" rx="18" fill="${badgeFill}" />`,
       );
       nodes.push(
-        `<text x="${84 + Math.round(badgeWidth / 2)}" y="${y + 41}" text-anchor="middle" ${titleFont} font-size="17" font-weight="800" fill="${badgeTextColor}">${escapeText(getRiskDisplayLabel(result.severity))}</text>`,
+        `<text x="${84 + Math.round(badgeWidth / 2)}" y="${y + 41}" text-anchor="middle" ${titleFont} font-size="17" font-weight="700" fill="${badgeTextColor}">${escapeText(getRiskDisplayLabel(result.severity))}</text>`,
       );
       nodes.push(
-        `<text x="${84 + badgeWidth + 16}" y="${y + 41}" ${titleFont} font-size="20" font-weight="800" fill="#0F172A">${escapeText(`${result.rule.subjectName} + ${result.rule.objectName}`)}</text>`,
+        `<text x="${84 + badgeWidth + 16}" y="${y + 41}" ${titleFont} font-size="20" font-weight="700" fill="#0F172A">${escapeText(`${result.rule.subjectName} + ${result.rule.objectName}`)}</text>`,
       );
 
       nodes.push(
@@ -244,7 +244,7 @@ function buildSessionSvg(session: AnalysisSession) {
     `<rect x="56" y="${noticeY}" width="${width - 112}" height="78" rx="22" fill="#FFF7ED" stroke="#FED7AA" />`,
   );
   nodes.push(
-    `<text x="84" y="${noticeY + 31}" ${titleFont} font-size="15" font-weight="800" fill="#C2410C">안내</text>`,
+    `<text x="84" y="${noticeY + 31}" ${titleFont} font-size="15" font-weight="700" fill="#C2410C">안내</text>`,
   );
   nodes.push(
     `<text x="84" y="${noticeY + 56}" ${titleFont} font-size="16" font-weight="500" fill="#9A3412">${escapeText('본 정보는 의료 진단을 대체하지 않습니다. 복약 관련 결정은 반드시 의사·약사와 상담하세요.')}</text>`,
@@ -399,17 +399,17 @@ export function saveSessionAsPdf(session: AnalysisSession, title: string) {
         <title>${title}</title>
         <style>
           * { box-sizing: border-box; }
-          body { margin: 0; padding: 24px; background: #f9fafb; font-family: Pretendard, Apple SD Gothic Neo, Noto Sans KR, sans-serif; color: #111827; font-size: 14px; }
+          body { margin: 0; padding: 24px; background: #f9fafb; font-family: AritaDotumKR, Apple SD Gothic Neo, Noto Sans KR, sans-serif; color: #111827; font-size: 14px; }
           .sheet { max-width: 720px; margin: 0 auto; background: #ffffff; border: 1px solid #e5e7eb; border-radius: 20px; padding: 32px; }
           .header { margin-bottom: 8px; }
-          .header h1 { margin: 0; font-size: 26px; font-weight: 800; }
+          .header h1 { margin: 0; font-size: 26px; font-weight: 700; }
           .header-date { margin: 6px 0 0; color: #64748b; font-size: 13px; }
           .section { margin-top: 20px; }
           .section h2 { margin: 0 0 10px; font-size: 16px; font-weight: 700; border-bottom: 1px solid #f1f5f9; padding-bottom: 8px; }
           .section p { margin: 6px 0; line-height: 1.6; font-size: 13px; }
           .result-card { margin-top: 8px; border: 1px solid #e5e7eb; border-radius: 14px; overflow: hidden; page-break-inside: avoid; break-inside: avoid; }
           .card-header { display: flex; align-items: center; gap: 10px; padding: 10px 14px; }
-          .badge { flex-shrink: 0; display: inline-flex; align-items: center; padding: 3px 10px; border-radius: 999px; font-size: 11px; font-weight: 800; }
+          .badge { flex-shrink: 0; display: inline-flex; align-items: center; padding: 3px 10px; border-radius: 999px; font-size: 11px; font-weight: 700; }
           .badge-critical { background: #fee2e2; color: #b91c1c; }
           .badge-caution { background: #fff7ed; color: #c2410c; }
           .badge-unknown { background: #f3f4f6; color: #6b7280; }
@@ -419,7 +419,7 @@ export function saveSessionAsPdf(session: AnalysisSession, title: string) {
           .card-tag { margin: 0 0 2px; font-size: 11px; font-weight: 600; color: #94a3b8; }
           .card-body-text { margin: 2px 0 0; font-size: 13px; line-height: 1.55; color: #334155; }
           .notice-box { margin-top: 20px; padding: 12px 16px; border: 1px solid #fed7aa; border-radius: 14px; background: #fff7ed; page-break-inside: avoid; break-inside: avoid; }
-          .notice-label { margin: 0 0 4px; color: #c2410c; font-size: 11px; font-weight: 800; }
+          .notice-label { margin: 0 0 4px; color: #c2410c; font-size: 11px; font-weight: 700; }
           .notice-text { margin: 0; font-size: 12px; color: #9a3412; line-height: 1.6; }
           @media print {
             body { padding: 20px 24px; background: #ffffff; }

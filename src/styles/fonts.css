@@ -1,10 +1,10 @@
-@font-face {
-  font-family: "AritaDotumKR";
-  src: url("/fonts/AritaDotumKR-Thin.woff2") format("woff2");
-  font-weight: 100;
-  font-style: normal;
-  font-display: swap;
-}
+/* ─── AritaDotumKR 폰트 패밀리 ───────────────────────────────
+ * 아모레퍼시픽 아리따돗움 — 프로젝트 전체에서 사용하는 유일한 서체.
+ *
+ * 제공 웨이트: Light(300), Medium(500), SemiBold(600), Bold(700)
+ * 400(Regular)은 원본에 없으므로 300~500 범위로 매핑하여
+ * font-weight:400 요청 시 Medium(500)으로 렌더링.
+ * ──────────────────────────────────────────────────────────── */
 
 @font-face {
   font-family: "AritaDotumKR";
@@ -17,7 +17,7 @@
 @font-face {
   font-family: "AritaDotumKR";
   src: url("/fonts/AritaDotumKR-Medium.woff2") format("woff2");
-  font-weight: 500;
+  font-weight: 400 500;
   font-style: normal;
   font-display: swap;
 }
