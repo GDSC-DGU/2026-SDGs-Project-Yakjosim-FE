@@ -24,20 +24,28 @@
 
 ### Desktop
 
+> 홈 화면에서 현재 복용 중인 약 조합의 위험도를 한눈에 확인할 수 있어요.
+
 <p align="center">
   <img src="./public/screenshots/d-01-home.png" alt="홈" width="80%" />
 </p>
+
+> 약품명·제조사·성분명으로 검색하고, 분석할 약 조합을 구성한 뒤 상호작용 결과를 확인해요.
 
 <p align="center">
   <img src="./public/screenshots/d-02-search.png" alt="약 검색" width="49%" />
   <img src="./public/screenshots/d-03-analyze.png" alt="조합 분석" width="49%" />
 </p>
 
+> 고령층 모드, 알림 등 개인 설정을 관리할 수 있어요.
+
 <p align="center">
   <img src="./public/screenshots/d-04-settings.png" alt="설정" width="80%" />
 </p>
 
 ### Mobile
+
+> 온보딩부터 검색·분석·설정까지, 모바일에서도 동일한 기능을 제공해요.
 
 <p align="center">
   <img src="./public/screenshots/m-01-onboarding.png" alt="온보딩" width="19%" />
