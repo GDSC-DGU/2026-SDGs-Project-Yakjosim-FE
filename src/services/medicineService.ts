@@ -1,34 +1,58 @@
-import type { Medicine, ActiveIngredient } from '@/types';
-import { medicines, ingredients } from '@/mock';
+import type { Medicine } from '@/types';
+import { apiFetch } from './api';
 
-const SEARCH_DELAY_MS = 300;
+interface ApiIngredient {
+  ingredientId: string;
+  nameKo: string;
+  nameEn: string | null;
+  amount: number | null;
+  unit: string | null;
+}
 
-function delay(ms: number): Promise<void> {
-  return new Promise((resolve) => setTimeout(resolve, ms));
+interface ApiMedicineProduct {
+  productId: string;
+  productName: string;
+  manufacturer: string | null;
+  ingredients: ApiIngredient[];
+}
+
+interface ApiSearchResponse {
+  results: ApiMedicineProduct[];
+}
+
+function toMedicine(p: ApiMedicineProduct): Medicine {
+  return {
+    id: p.productId,
+    productName: p.productName,
+    manufacturer: p.manufacturer ?? '',
+    dosageForm: '',
+    classification: '',
+    ingredients: p.ingredients.map((ing, i) => ({
+      ingredient: {
+        id: ing.ingredientId,
+        nameKo: ing.nameKo,
+        nameEn: ing.nameEn ?? '',
+        category: '',
+      },
+      amount: ing.amount ?? 0,
+      unit: ing.unit ?? '',
+      isMain: i === 0,
+    })),
+  };
 }
 
 export async function searchMedicines(query: string): Promise<Medicine[]> {
-  await delay(SEARCH_DELAY_MS);
   if (!query.trim()) return [];
-  const q = query.toLowerCase();
-  return medicines.filter(
-    (m) =>
-      m.productName.toLowerCase().includes(q) ||
-      m.manufacturer.toLowerCase().includes(q) ||
-      m.ingredients.some(
-        (ing) =>
-          ing.ingredient.nameKo.includes(q) ||
-          ing.ingredient.nameEn.toLowerCase().includes(q),
-      ),
+  const data = await apiFetch<ApiSearchResponse>(
+    `/medicines/search?keyword=${encodeURIComponent(query.trim())}`,
   );
+  return data.results.map(toMedicine);
 }
 
 export async function getMedicineById(id: string): Promise<Medicine | null> {
-  await delay(100);
-  return medicines.find((m) => m.id === id) ?? null;
-}
-
-export async function getIngredients(): Promise<ActiveIngredient[]> {
-  await delay(100);
-  return ingredients;
+  const data = await apiFetch<ApiSearchResponse>(
+    `/medicines/search?keyword=${encodeURIComponent(id)}`,
+  );
+  const match = data.results.find((p) => p.productId === id);
+  return match ? toMedicine(match) : null;
 }

@@ -1,41 +1,45 @@
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router';
+import { lazy, Suspense } from 'react';
+import { BrowserRouter, Routes, Route, Navigate, Outlet } from 'react-router';
 import { Toaster } from 'sonner';
 import { OverlayProvider } from 'overlay-kit';
 import { ErrorBoundary } from '@/components/common/ErrorBoundary';
 import { MedicineProvider } from '@/contexts/MedicineContext';
 import { AnalysisProvider } from '@/contexts/AnalysisContext';
 import { UserProvider, useUserContext } from '@/contexts/UserContext';
+import { ROUTES } from '@/routes';
 
-import OnboardingPage from '@/pages/OnboardingPage';
-import HomePage from '@/pages/HomePage';
-import SearchPage from '@/pages/SearchPage';
-import AddMedicinePage from '@/pages/AddMedicinePage';
-import OcrPage from '@/pages/OcrPage';
-import CombinationPage from '@/pages/CombinationPage';
-import ResultsPage from '@/pages/ResultsPage';
-import DetailPage from '@/pages/DetailPage';
-import SharePage from '@/pages/SharePage';
-import SettingsPage from '@/pages/SettingsPage';
+const OnboardingPage = lazy(() => import('@/pages/OnboardingPage'));
+const HomePage = lazy(() => import('@/pages/HomePage'));
+const SearchPage = lazy(() => import('@/pages/SearchPage'));
+const AddMedicinePage = lazy(() => import('@/pages/AddMedicinePage'));
+const OcrPage = lazy(() => import('@/pages/OcrPage'));
+const CombinationPage = lazy(() => import('@/pages/CombinationPage'));
+const ResultsPage = lazy(() => import('@/pages/ResultsPage'));
+const DetailPage = lazy(() => import('@/pages/DetailPage'));
+const SharePage = lazy(() => import('@/pages/SharePage'));
+const SettingsPage = lazy(() => import('@/pages/SettingsPage'));
+const NotFoundPage = lazy(() => import('@/pages/NotFoundPage'));
 
-const ONBOARDING_REDIRECT_KEY = 'yak-josim-onboarding-redirect';
-
-function getOnboardingRedirectPath() {
-  const fallbackPath = '/home';
-
-  try {
-    const path = window.sessionStorage.getItem(ONBOARDING_REDIRECT_KEY);
-    window.sessionStorage.removeItem(ONBOARDING_REDIRECT_KEY);
-
-    return path === '/combine' || path === '/home' ? path : fallbackPath;
-  } catch {
-    return fallbackPath;
-  }
+function PageFallback() {
+  return (
+    <div className="flex min-h-screen items-center justify-center bg-background">
+      <div className="h-6 w-6 animate-spin rounded-full border-2 border-primary border-t-transparent" />
+    </div>
+  );
 }
 
 function OnboardingGuard() {
   const { state } = useUserContext();
+  if (!state.hasCompletedOnboarding) {
+    return <Navigate to={ROUTES.ONBOARDING} replace />;
+  }
+  return <Outlet />;
+}
+
+function OnboardingRedirect() {
+  const { state } = useUserContext();
   if (state.hasCompletedOnboarding) {
-    return <Navigate to={getOnboardingRedirectPath()} replace />;
+    return <Navigate to={ROUTES.HOME} replace />;
   }
   return <OnboardingPage />;
 }
@@ -43,16 +47,30 @@ function OnboardingGuard() {
 function AppRoutes() {
   return (
     <Routes>
-      <Route path="/" element={<OnboardingGuard />} />
-      <Route path="/home" element={<HomePage />} />
-      <Route path="/search" element={<SearchPage />} />
-      <Route path="/add-medicine" element={<AddMedicinePage />} />
-      <Route path="/ocr" element={<OcrPage />} />
-      <Route path="/combine" element={<CombinationPage />} />
-      <Route path="/results" element={<ResultsPage />} />
-      <Route path="/detail/:resultId" element={<DetailPage />} />
-      <Route path="/share/:sessionId" element={<SharePage />} />
-      <Route path="/settings" element={<SettingsPage />} />
+      {/* Public — onboarding */}
+      <Route path={ROUTES.ONBOARDING} element={<OnboardingRedirect />} />
+
+      {/* Protected — requires completed onboarding */}
+      <Route element={<OnboardingGuard />}>
+        <Route path={ROUTES.HOME} element={<HomePage />} />
+
+        {/* Search flow */}
+        <Route path={ROUTES.SEARCH} element={<SearchPage />} />
+        <Route path={ROUTES.SEARCH_ADD} element={<AddMedicinePage />} />
+        <Route path={ROUTES.SEARCH_OCR} element={<OcrPage />} />
+
+        {/* Analysis flow */}
+        <Route path={ROUTES.ANALYZE} element={<CombinationPage />} />
+        <Route path={`${ROUTES.ANALYZE_RESULTS}`} element={<ResultsPage />} />
+        <Route path={`${ROUTES.ANALYZE_DETAIL}/:resultId`} element={<DetailPage />} />
+        <Route path={`${ROUTES.ANALYZE_SHARE}/:sessionId`} element={<SharePage />} />
+
+        {/* Settings */}
+        <Route path={ROUTES.SETTINGS} element={<SettingsPage />} />
+      </Route>
+
+      {/* Catch-all */}
+      <Route path="*" element={<NotFoundPage />} />
     </Routes>
   );
 }
@@ -65,19 +83,20 @@ export default function App() {
           <UserProvider>
             <MedicineProvider>
               <AnalysisProvider>
-                <AppRoutes />
+                <Suspense fallback={<PageFallback />}>
+                  <AppRoutes />
+                </Suspense>
                 <Toaster
-                position="top-center"
-                richColors
-                toastOptions={{
-                  classNames: {
-                    toast:
-                      'rounded-2xl border border-gray-200 bg-white text-gray-900 shadow-lg',
-                    title: 'text-sm font-medium',
-                    description: 'text-sm text-gray-600',
-                  },
-                }}
-              />
+                  position="top-center"
+                  richColors
+                  toastOptions={{
+                    classNames: {
+                      toast: 'surface-elevated border-0',
+                      title: 'text-sm font-semibold text-foreground',
+                      description: 'text-sm text-muted-foreground',
+                    },
+                  }}
+                />
               </AnalysisProvider>
             </MedicineProvider>
           </UserProvider>

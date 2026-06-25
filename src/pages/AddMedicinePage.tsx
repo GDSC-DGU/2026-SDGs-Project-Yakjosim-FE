@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { Camera, Plus, Check, Loader2, AlertTriangle } from 'lucide-react';
 import { useNavigate } from 'react-router';
 import { toast } from 'sonner';
+import { ROUTES } from '@/routes';
 import { Button } from '@/app/components/ui/button';
 import { PageContainer } from '@/components/layout/PageContainer';
 import { SearchInput } from '@/components/common/SearchInput';
@@ -58,116 +59,130 @@ export default function AddMedicinePage() {
 
   return (
     <PageContainer title="약 추가" showBackButton showBottomNav={false}>
-      <div className="space-y-4 pb-24">
+      <div className="space-y-6 pb-4">
         {medicineState.selectedMedicines.length > 0 && (
-          <div className="space-y-2">
-            <p className="text-xs font-medium uppercase tracking-wide text-gray-400">
+          <div className="animate-fade-in space-y-3">
+            <p className="px-1 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
               분석 목록 ({medicineState.selectedMedicines.length}개)
             </p>
-            {medicineState.selectedMedicines.map((med) => (
-              <MedicineCard
-                key={med.id}
-                medicine={med}
-                onRemove={(id) => medicineDispatch({ type: 'REMOVE_MEDICINE', payload: id })}
-                selected
-              />
+            {medicineState.selectedMedicines.map((med, i) => (
+              <div key={med.id} className="animate-slide-up" style={{ animationDelay: `${i * 0.05}s` }}>
+                <MedicineCard
+                  medicine={med}
+                  onRemove={(id) => medicineDispatch({ type: 'REMOVE_MEDICINE', payload: id })}
+                  selected
+                />
+              </div>
             ))}
           </div>
         )}
 
-        <SearchInput
-          value={query}
-          onChange={setQuery}
-          results={results}
-          onSelect={handleSelect}
-          isLoading={isSearching}
-          placeholder="추가할 약 이름으로 검색"
-        />
+        <div className="animate-fade-in space-y-3" style={{ animationDelay: '0.1s' }}>
+          <SearchInput
+            value={query}
+            onChange={setQuery}
+            results={results}
+            onSelect={handleSelect}
+            isLoading={isSearching}
+            placeholder="추가할 약 이름으로 검색"
+          />
 
-        <input
-          ref={fileInputRef}
-          type="file"
-          accept="image/*"
-          capture="environment"
-          className="hidden"
-          onChange={handleFileChange}
-        />
-        <button
-          type="button"
-          onClick={() => fileInputRef.current?.click()}
-          disabled={ocrLoading}
-          className="flex w-full items-center gap-2 rounded-xl border border-dashed border-gray-300 px-4 py-2.5 text-sm text-gray-500 transition-colors hover:border-gray-400 hover:text-gray-700 disabled:opacity-50"
-        >
-          {ocrLoading
-            ? <><Loader2 className="h-4 w-4 animate-spin" />처방전 인식 중...</>
-            : <><Camera className="h-4 w-4" />처방전 촬영으로 추가하기</>
-          }
-        </button>
+          <input
+            ref={fileInputRef}
+            type="file"
+            accept="image/*"
+            capture="environment"
+            className="hidden"
+            onChange={handleFileChange}
+          />
+          <button
+            type="button"
+            onClick={() => fileInputRef.current?.click()}
+            disabled={ocrLoading}
+            className="flex w-full items-center gap-2.5 rounded-2xl border border-dashed border-border px-4 py-3 text-[15px] text-muted-foreground transition-all hover:border-primary/30 hover:text-foreground hover:shadow-[var(--shadow-sm)] disabled:opacity-50"
+          >
+            {ocrLoading
+              ? <><Loader2 className="h-4 w-4 animate-spin text-primary" />처방전 인식 중...</>
+              : <>
+                  <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-primary/10">
+                    <Camera className="h-4 w-4 text-primary" />
+                  </div>
+                  처방전 촬영으로 추가하기
+                </>
+            }
+          </button>
+        </div>
 
         {ocrError && (
-          <p className="flex items-center gap-1.5 text-sm text-red-500">
-            <AlertTriangle className="h-4 w-4" />
-            인식에 실패했어요. 다시 시도해 주세요.
-          </p>
+          <div className="animate-fade-in flex items-center gap-2 rounded-2xl bg-destructive/10 px-4 py-3">
+            <AlertTriangle className="h-4 w-4 shrink-0 text-destructive" />
+            <p className="text-sm font-medium text-destructive">인식하지 못했어요. 다시 시도해봐요.</p>
+          </div>
         )}
 
         {ocrResults.length > 0 && (
-          <div className="space-y-1">
-            <p className="text-xs font-medium text-gray-500">촬영으로 인식된 약 — 탭해서 추가하세요</p>
-            {ocrResults.map((result) => {
-              const isAdded = selectedIds.has(result.medicine.id);
-              return (
-                <button
-                  key={result.medicine.id}
-                  type="button"
-                  disabled={isAdded}
-                  onClick={() => addOcrMedicine(result.medicine)}
-                  className={`flex w-full items-center justify-between rounded-xl px-3 py-2.5 transition-colors ${
-                    isAdded ? 'opacity-40' : 'hover:bg-gray-50'
-                  }`}
-                >
-                  <div className="min-w-0 flex-1 text-left">
-                    <p className="truncate text-sm font-medium text-gray-900">
-                      {result.medicine.productName}
-                    </p>
-                    <p className="text-xs text-gray-500">{result.medicine.manufacturer}</p>
-                  </div>
-                  {isAdded
-                    ? <Check className="h-4 w-4 shrink-0 text-blue-500" />
-                    : <Plus className="h-4 w-4 shrink-0 text-gray-400" />
-                  }
-                </button>
-              );
-            })}
+          <div className="animate-slide-up space-y-2">
+            <p className="px-1 text-xs font-semibold text-muted-foreground">촬영으로 인식한 약 — 탭해서 추가해요</p>
+            <div className="surface-card divide-y divide-border/50 overflow-hidden">
+              {ocrResults.map((result, i) => {
+                const isAdded = selectedIds.has(result.medicine.id);
+                return (
+                  <button
+                    key={result.medicine.id}
+                    type="button"
+                    disabled={isAdded}
+                    onClick={() => addOcrMedicine(result.medicine)}
+                    className={`animate-slide-up flex w-full items-center justify-between px-4 py-3.5 text-left transition-colors ${
+                      isAdded ? 'opacity-40' : 'hover:bg-muted/50'
+                    }`}
+                    style={{ animationDelay: `${i * 0.05}s` }}
+                  >
+                    <div className="min-w-0 flex-1">
+                      <p className="truncate text-[15px] font-semibold text-foreground">
+                        {result.medicine.productName}
+                      </p>
+                      <p className="mt-0.5 text-sm text-muted-foreground">{result.medicine.manufacturer}</p>
+                    </div>
+                    {isAdded
+                      ? <div className="flex h-7 w-7 items-center justify-center rounded-full bg-primary/10"><Check className="h-4 w-4 shrink-0 text-primary" /></div>
+                      : <div className="flex h-7 w-7 items-center justify-center rounded-full bg-muted"><Plus className="h-4 w-4 shrink-0 text-muted-foreground" /></div>
+                    }
+                  </button>
+                );
+              })}
+            </div>
           </div>
         )}
 
         {query && !isSearching && results.length === 0 && (
-          <div className="flex flex-col items-center gap-2 py-10 text-center">
-            <p className="text-sm font-medium text-gray-500">검색 결과가 없어요</p>
-            <p className="text-xs text-gray-400">약품명, 제조사, 성분명을 다시 확인해보세요</p>
+          <div className="animate-fade-in flex flex-col items-center gap-3 py-14 text-center">
+            <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-muted">
+              <Plus className="h-6 w-6 text-muted-foreground" />
+            </div>
+            <div>
+              <p className="text-[15px] font-semibold text-foreground">다른 키워드로 찾아봐요</p>
+              <p className="mt-1 text-sm text-muted-foreground">약품명, 제조사, 성분명을 바꿔서 다시 검색해봐요</p>
+            </div>
           </div>
         )}
 
         {!query && medicineState.selectedMedicines.length === 0 && ocrResults.length === 0 && !ocrLoading && (
-          <div className="flex flex-col items-center gap-3 py-16 text-center">
-            <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-blue-50">
-              <Plus className="h-7 w-7 text-blue-400" />
+          <div className="animate-slide-up flex flex-col items-center gap-4 py-20 text-center" style={{ animationDelay: '0.2s' }}>
+            <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-primary/10">
+              <Plus className="h-7 w-7 text-primary/60" />
             </div>
             <div>
-              <p className="text-sm font-medium text-gray-600">추가할 약을 검색하세요</p>
-              <p className="mt-1 text-xs text-gray-400">검색 후 선택하면 분석 목록에 바로 추가돼요</p>
+              <p className="text-[15px] font-semibold text-foreground">추가할 약을 검색해봐요</p>
+              <p className="mt-1.5 text-sm leading-relaxed text-muted-foreground">검색 후 선택하면 분석 목록에 바로 추가돼요</p>
             </div>
           </div>
         )}
 
         {medicineState.selectedMedicines.length > 0 && (
-          <div className="fixed bottom-0 left-0 right-0 border-t bg-white p-4">
-            <div className="mx-auto max-w-lg">
-              <Button className="w-full" size="lg" onClick={() => navigate('/combine')}>
-                분석 화면으로 돌아가기
-              </Button>
-            </div>
+          <div className="glass sticky bottom-0 -mx-5 border-t border-border/40 p-4">
+            <Button className="w-full rounded-2xl py-3 text-[15px] font-semibold shadow-[var(--shadow-sm)]" size="lg" onClick={() => navigate(ROUTES.ANALYZE)}>
+              분석 화면으로 돌아가기
+            </Button>
           </div>
         )}
       </div>

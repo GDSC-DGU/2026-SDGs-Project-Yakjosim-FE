@@ -22,16 +22,16 @@ import type { Severity } from '@/types';
 import type { RiskDisplaySeverity } from '@/utils/risk';
 
 const riskLevels: { displaySeverity: RiskDisplaySeverity; badgeSeverity: Severity; description: string }[] = [
-  { displaySeverity: 'critical', badgeSeverity: 'critical', description: '절대 함께 복용하면 안 되는 조합입니다.' },
+  { displaySeverity: 'critical', badgeSeverity: 'critical', description: '절대 함께 복용하면 안 되는 조합이에요.' },
   {
     displaySeverity: 'caution',
     badgeSeverity: 'high',
-    description: '주의는 high/medium/low 위험도를 대표하며 시간 간격 조정이나 전문가 상담이 필요한 조합입니다.',
+    description: '시간 간격 조정이나 전문가 상담이 필요한 조합이에요.',
   },
   {
     displaySeverity: 'unknown',
     badgeSeverity: 'unknown',
-    description: '상호작용 정보가 확인되지 않았습니다. 안전함을 의미하지 않습니다.',
+    description: '상호작용 정보를 확인하지 못했어요. 안전하다는 뜻은 아니에요.',
   },
 ];
 
@@ -46,73 +46,85 @@ export default function SettingsPage() {
 
   return (
     <PageContainer title="설정" showBottomNav>
-      <div className="space-y-4">
+      <div className="space-y-5">
         {/* Accessibility */}
-        <SectionCard title="접근성">
-          <div className="flex items-center justify-between">
-            <div>
-              <Label htmlFor="senior-mode" className="text-sm font-medium">
-                고령층 모드
-              </Label>
-              <p className="text-xs text-gray-400">
-                글꼴과 터치 영역을 키워 앱 전체를 읽기 쉽게 합니다
-              </p>
+        <div className="animate-slide-up" style={{ animationDelay: '0.1s' }}>
+          <SectionCard title="접근성">
+            <div className="flex items-center justify-between gap-4">
+              <div className="min-w-0 flex-1">
+                <Label htmlFor="senior-mode" className="text-sm font-semibold text-foreground">
+                  고령층 모드
+                </Label>
+                <p className="mt-0.5 text-xs leading-relaxed text-muted-foreground">
+                  글꼴과 터치 영역을 키워 읽기 쉽게 해요
+                </p>
+              </div>
+              <Switch
+                id="senior-mode"
+                checked={state.seniorMode}
+                onCheckedChange={() => dispatch({ type: 'TOGGLE_SENIOR_MODE' })}
+              />
             </div>
-            <Switch
-              id="senior-mode"
-              checked={state.seniorMode}
-              onCheckedChange={() => dispatch({ type: 'TOGGLE_SENIOR_MODE' })}
-            />
-          </div>
-        </SectionCard>
+          </SectionCard>
+        </div>
 
         {/* Risk legend */}
-        <SectionCard title="위험도 범례">
-          <div className="space-y-3">
-            {riskLevels.map(({ displaySeverity, badgeSeverity, description }) => (
-              <div key={displaySeverity} className="flex items-start gap-3">
-                <RiskBadge severity={badgeSeverity} />
-                <p className="flex-1 text-sm text-gray-600">{description}</p>
-              </div>
-            ))}
-          </div>
-        </SectionCard>
+        <div className="animate-slide-up" style={{ animationDelay: '0.2s' }}>
+          <SectionCard title="위험도 범례">
+            <div className="space-y-3">
+              {riskLevels.map(({ displaySeverity, badgeSeverity, description }, i) => (
+                <div
+                  key={displaySeverity}
+                  className="animate-fade-in flex items-center gap-3 rounded-xl bg-muted/40 px-4 py-3"
+                  style={{ animationDelay: `${0.3 + i * 0.08}s` }}
+                >
+                  <RiskBadge severity={badgeSeverity} />
+                  <p className="flex-1 text-sm leading-snug text-muted-foreground">{description}</p>
+                </div>
+              ))}
+            </div>
+          </SectionCard>
+        </div>
 
         {/* Service info */}
-        <SectionCard title="서비스 정보">
-          <div className="space-y-2 text-sm text-gray-600">
-            <p className="font-medium">약 조심 v1.0</p>
-            <p>본 서비스는 의료 진단을 대체하지 않습니다.</p>
-            <p>데이터 출처: 약학정보원, 식품의약품안전처 DUR</p>
-          </div>
-        </SectionCard>
+        <div className="animate-slide-up" style={{ animationDelay: '0.3s' }}>
+          <SectionCard title="서비스 정보">
+            <div className="space-y-2">
+              <p className="text-[15px] font-semibold text-foreground">약 조심 v1.0</p>
+              <p className="text-sm text-muted-foreground">의료 진단을 대체하지 않아요</p>
+              <p className="text-xs text-muted-foreground">데이터: 약학정보원, 식약처 DUR</p>
+            </div>
+          </SectionCard>
+        </div>
 
         {/* Data management */}
-        <SectionCard title="데이터 관리">
-          <AlertDialog open={resetDialogOpen} onOpenChange={setResetDialogOpen}>
-            <AlertDialogTrigger asChild>
-              <Button variant="destructive" size="sm">
-                <Trash2 className="mr-2 h-4 w-4" />
-                모든 데이터 초기화
-              </Button>
-            </AlertDialogTrigger>
-            <AlertDialogContent>
-              <AlertDialogHeader>
-                <AlertDialogTitle>데이터 초기화</AlertDialogTitle>
-                <AlertDialogDescription>
-                  저장된 약, 분석 기록, 건강 정보 등 모든 데이터가 삭제됩니다.
-                  이 작업은 되돌릴 수 없습니다.
-                </AlertDialogDescription>
-              </AlertDialogHeader>
-              <AlertDialogFooter>
-                <AlertDialogCancel>취소</AlertDialogCancel>
-                <AlertDialogAction onClick={handleReset}>
-                  초기화
-                </AlertDialogAction>
-              </AlertDialogFooter>
-            </AlertDialogContent>
-          </AlertDialog>
-        </SectionCard>
+        <div className="animate-slide-up" style={{ animationDelay: '0.4s' }}>
+          <SectionCard title="데이터 관리">
+            <p className="mb-3 text-sm text-muted-foreground">
+              저장한 모든 데이터를 삭제하고 초기 상태로 되돌려요.
+            </p>
+            <AlertDialog open={resetDialogOpen} onOpenChange={setResetDialogOpen}>
+              <AlertDialogTrigger asChild>
+                <Button variant="destructive" className="h-12 w-full rounded-xl text-sm font-semibold">
+                  <Trash2 className="mr-2 h-4 w-4" />
+                  모든 데이터 초기화
+                </Button>
+              </AlertDialogTrigger>
+              <AlertDialogContent className="surface-elevated border-0">
+                <AlertDialogHeader>
+                  <AlertDialogTitle>데이터 초기화</AlertDialogTitle>
+                  <AlertDialogDescription>
+                    저장한 약, 분석 기록, 건강 정보가 모두 삭제돼요. 되돌릴 수 없어요.
+                  </AlertDialogDescription>
+                </AlertDialogHeader>
+                <AlertDialogFooter>
+                  <AlertDialogCancel className="rounded-xl">취소</AlertDialogCancel>
+                  <AlertDialogAction onClick={handleReset} className="rounded-xl">초기화</AlertDialogAction>
+                </AlertDialogFooter>
+              </AlertDialogContent>
+            </AlertDialog>
+          </SectionCard>
+        </div>
       </div>
     </PageContainer>
   );

@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Camera, Pill, ChevronRight } from 'lucide-react';
 import { useLocation, useNavigate } from 'react-router';
+import { ROUTES } from '@/routes';
 import { toast } from 'sonner';
 import { Button } from '@/app/components/ui/button';
 import { Card, CardContent } from '@/app/components/ui/card';
@@ -36,13 +37,13 @@ function InfoSearchPage({ onOcr }: { onOcr: () => void }) {
     }
     medicineDispatch({ type: 'ADD_MEDICINE', payload: medicine });
     toast('분석 목록에 추가했어요.', {
-      description: `${medicine.productName}을(를) 조합 분석에 넣었습니다.`,
+      description: `${medicine.productName}을(를) 조합 분석에 넣었어요.`,
     });
   };
 
   return (
-    <div className="space-y-4">
-      <div className="space-y-2">
+    <div className="space-y-6">
+      <div className="animate-fade-in space-y-3">
         <SearchInput
           value={query}
           onChange={setQuery}
@@ -54,112 +55,119 @@ function InfoSearchPage({ onOcr }: { onOcr: () => void }) {
         <button
           type="button"
           onClick={onOcr}
-          className="flex w-full items-center gap-2 rounded-xl border border-dashed border-gray-300 px-4 py-2.5 text-sm text-gray-500 transition-colors hover:border-gray-400 hover:text-gray-700"
+          className="flex w-full items-center gap-2.5 rounded-2xl border border-dashed border-border px-4 py-3 text-[15px] text-muted-foreground transition-all hover:border-primary/30 hover:text-foreground hover:shadow-[var(--shadow-sm)]"
         >
-          <Camera className="h-4 w-4" />
+          <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-primary/10">
+            <Camera className="h-4 w-4 text-primary" />
+          </div>
           처방전 촬영으로 검색하기
         </button>
       </div>
 
       {ocrMedicines.length > 0 && (
-        <div className="space-y-2">
-          <div className="flex items-center justify-between">
-            <p className="text-sm font-medium text-gray-700">
+        <div className="animate-slide-up space-y-3">
+          <div className="flex items-center justify-between px-1">
+            <p className="text-[15px] font-semibold tracking-tight text-foreground">
               촬영으로 인식된 약 ({ocrMedicines.length}개)
             </p>
             <button
               type="button"
-              className="text-xs text-gray-400 hover:text-gray-600"
+              className="text-xs text-muted-foreground transition-colors hover:text-foreground"
               onClick={() => setOcrMedicines([])}
             >
               닫기
             </button>
           </div>
-          {ocrMedicines.map((medicine) => (
-            <Card key={medicine.id} className="border-gray-200">
-              <CardContent className="flex items-center justify-between gap-3 p-3">
-                <div className="min-w-0 flex-1">
-                  <p className="truncate text-sm font-medium text-gray-900">{medicine.productName}</p>
-                  <p className="text-xs text-gray-500">{medicine.manufacturer}</p>
-                </div>
-                <Button variant="outline" size="sm" onClick={() => setViewedMedicine(medicine)}>
-                  정보 보기
-                </Button>
-              </CardContent>
-            </Card>
+          {ocrMedicines.map((medicine, i) => (
+            <div
+              key={medicine.id}
+              className="animate-slide-up surface-card surface-card-hover flex items-center justify-between gap-3 p-4"
+              style={{ animationDelay: `${i * 0.06}s` }}
+            >
+              <div className="min-w-0 flex-1">
+                <p className="truncate text-[15px] font-semibold text-foreground">{medicine.productName}</p>
+                <p className="mt-0.5 text-sm text-muted-foreground">{medicine.manufacturer}</p>
+              </div>
+              <Button variant="outline" size="sm" className="rounded-xl" onClick={() => setViewedMedicine(medicine)}>
+                정보 보기
+              </Button>
+            </div>
           ))}
         </div>
       )}
 
       {viewedMedicine ? (
-        <Card className="border-gray-200">
-          <CardContent className="space-y-4 p-4">
-            <div className="flex items-start justify-between gap-3">
-              <div>
-                <p className="text-lg font-semibold text-gray-900">{viewedMedicine.productName}</p>
-                <p className="mt-0.5 text-sm text-gray-500">{viewedMedicine.manufacturer}</p>
-              </div>
-              <button
-                type="button"
-                className="shrink-0 text-xs text-gray-400 hover:text-gray-600"
-                onClick={() => setViewedMedicine(null)}
-              >
-                닫기
-              </button>
+        <div className="animate-scale-in surface-card space-y-5 p-5">
+          <div className="flex items-start justify-between gap-3">
+            <div>
+              <p className="text-lg font-bold tracking-tight text-foreground">{viewedMedicine.productName}</p>
+              <p className="mt-1 text-sm text-muted-foreground">{viewedMedicine.manufacturer}</p>
             </div>
-            {viewedMedicine.indication && (
-              <div className="rounded-xl bg-blue-50 p-3">
-                <p className="text-xs font-medium text-blue-600">주요 용도</p>
-                <p className="mt-1 text-sm text-gray-800">{viewedMedicine.indication}</p>
-              </div>
-            )}
-            <div className="grid grid-cols-2 gap-2">
-              <div className="rounded-xl bg-gray-50 p-3">
-                <p className="text-xs font-medium text-gray-500">제형</p>
-                <p className="mt-1 text-sm text-gray-900">{viewedMedicine.dosageForm}</p>
-              </div>
-              <div className="rounded-xl bg-gray-50 p-3">
-                <p className="text-xs font-medium text-gray-500">구분</p>
-                <p className="mt-1 text-sm text-gray-900">{viewedMedicine.classification}</p>
-              </div>
+            <button
+              type="button"
+              className="shrink-0 rounded-lg px-2 py-1 text-xs text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
+              onClick={() => setViewedMedicine(null)}
+            >
+              닫기
+            </button>
+          </div>
+          {viewedMedicine.indication && (
+            <div className="rounded-2xl bg-primary/[0.06] p-4">
+              <p className="text-xs font-semibold text-primary">주요 용도</p>
+              <p className="mt-1.5 text-[15px] leading-relaxed text-foreground">{viewedMedicine.indication}</p>
             </div>
-            <div className="rounded-xl bg-gray-50 p-3">
-              <p className="text-xs font-medium text-gray-500">성분 정보</p>
-              <div className="mt-2 space-y-1">
-                {viewedMedicine.ingredients.map((ingredient) => (
-                  <p key={ingredient.ingredient.id} className="text-sm text-gray-900">
-                    {ingredient.ingredient.nameKo} {ingredient.amount}{ingredient.unit}
-                    {ingredient.isMain && <span className="ml-1 text-xs text-blue-600">주성분</span>}
-                  </p>
-                ))}
-              </div>
+          )}
+          <div className="grid grid-cols-2 gap-3">
+            <div className="rounded-2xl bg-muted/50 p-4">
+              <p className="text-xs font-semibold text-muted-foreground">제형</p>
+              <p className="mt-1.5 text-[15px] font-medium text-foreground">{viewedMedicine.dosageForm}</p>
             </div>
-            <Button className="w-full" onClick={() => handleAddToAnalysis(viewedMedicine)}>
-              분석에 추가
-            </Button>
-          </CardContent>
-        </Card>
-      ) : query && !isSearching && results.length === 0 ? (
-        <div className="flex flex-col items-center gap-2 py-16 text-center">
-          <p className="text-sm font-medium text-gray-500">검색 결과가 없어요</p>
-          <p className="text-xs text-gray-400">약품명, 제조사, 성분명을 다시 확인해보세요</p>
+            <div className="rounded-2xl bg-muted/50 p-4">
+              <p className="text-xs font-semibold text-muted-foreground">구분</p>
+              <p className="mt-1.5 text-[15px] font-medium text-foreground">{viewedMedicine.classification}</p>
+            </div>
+          </div>
+          <div className="rounded-2xl bg-muted/50 p-4">
+            <p className="text-xs font-semibold text-muted-foreground">성분 정보</p>
+            <div className="mt-2.5 space-y-1.5">
+              {viewedMedicine.ingredients.map((ingredient) => (
+                <p key={ingredient.ingredient.id} className="text-[15px] text-foreground">
+                  {ingredient.ingredient.nameKo} {ingredient.amount}{ingredient.unit}
+                  {ingredient.isMain && <span className="ml-1.5 rounded-md bg-primary/10 px-1.5 py-0.5 text-xs font-semibold text-primary">주성분</span>}
+                </p>
+              ))}
+            </div>
+          </div>
+          <Button className="w-full rounded-2xl py-3 text-[15px] font-semibold shadow-[var(--shadow-sm)]" onClick={() => handleAddToAnalysis(viewedMedicine)}>
+            분석에 추가
+          </Button>
         </div>
-      ) : !query && (
-        <div className="flex flex-col items-center gap-3 py-16 text-center">
-          <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-gray-100">
-            <Pill className="h-7 w-7 text-gray-400" />
+      ) : query && !isSearching && results.length === 0 ? (
+        <div className="animate-fade-in flex flex-col items-center gap-3 py-20 text-center">
+          <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-muted">
+            <Pill className="h-6 w-6 text-muted-foreground" />
           </div>
           <div>
-            <p className="text-sm font-medium text-gray-600">약 이름으로 검색해보세요</p>
-            <p className="mt-1 text-xs text-gray-400">성분, 제형 등 상세 정보를 확인할 수 있어요</p>
+            <p className="text-[15px] font-semibold text-foreground">다른 키워드로 찾아봐요</p>
+            <p className="mt-1 text-sm text-muted-foreground">약품명, 제조사, 성분명을 바꿔서 다시 검색해봐요</p>
+          </div>
+        </div>
+      ) : !query && (
+        <div className="animate-slide-up flex flex-col items-center gap-4 py-20 text-center" style={{ animationDelay: '0.15s' }}>
+          <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-primary/10">
+            <Pill className="h-7 w-7 text-primary/60" />
+          </div>
+          <div>
+            <p className="text-[15px] font-semibold text-foreground">약 이름으로 검색해봐요</p>
+            <p className="mt-1.5 text-sm leading-relaxed text-muted-foreground">성분, 제형 등 상세 정보를 확인할 수 있어요</p>
           </div>
           <button
             type="button"
-            onClick={() => navigate('/combine')}
-            className="mt-1 flex items-center gap-1 text-xs text-blue-600 hover:underline"
+            onClick={() => navigate(ROUTES.ANALYZE)}
+            className="mt-1 flex items-center gap-1 rounded-lg px-3 py-1.5 text-sm font-semibold text-primary transition-colors hover:bg-primary/10"
           >
             분석 화면으로 이동
-            <ChevronRight className="h-3 w-3" />
+            <ChevronRight className="h-3.5 w-3.5" />
           </button>
         </div>
       )}
@@ -172,7 +180,7 @@ export default function SearchPage() {
 
   return (
     <PageContainer title="약 검색" showBackButton showBottomNav>
-      <InfoSearchPage onOcr={() => navigate('/ocr?mode=search')} />
+      <InfoSearchPage onOcr={() => navigate(`${ROUTES.SEARCH_OCR}?mode=search`)} />
     </PageContainer>
   );
 }

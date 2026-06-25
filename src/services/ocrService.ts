@@ -1,10 +1,21 @@
 import type { Medicine } from '@/types';
-import { medicines } from '@/mock';
+import { apiUpload } from './api';
+import { searchMedicines } from './medicineService';
 
-const OCR_DELAY_MS = 1000;
+interface ApiOCRItem {
+  rawText: string;
+  candidateProducts: Array<{
+    productId?: string;
+    productName?: string;
+    score?: number;
+  }>;
+  requiresUserConfirmation: boolean;
+}
 
-function delay(ms: number): Promise<void> {
-  return new Promise((resolve) => setTimeout(resolve, ms));
+interface ApiOCRResponse {
+  documentId: string;
+  ocrConfidence: number;
+  extractedItems: ApiOCRItem[];
 }
 
 export interface OcrResult {
@@ -12,21 +23,36 @@ export interface OcrResult {
   confidence: number;
 }
 
-export async function uploadPrescription(_file: File): Promise<OcrResult[]> {
-  await delay(OCR_DELAY_MS);
+export async function uploadPrescription(file: File): Promise<OcrResult[]> {
+  const formData = new FormData();
+  formData.append('file', file);
 
-  // mock: 미리 정의된 약품 3개를 반환 (타이레놀, 노르바스크, 오메프라졸)
-  const predefinedIds = ['med-001', 'med-003', 'med-008'];
-  const results: OcrResult[] = predefinedIds
-    .map((id) => {
-      const med = medicines.find((m) => m.id === id);
-      if (!med) return null;
-      return {
-        medicine: med,
-        confidence: 0.7 + Math.random() * 0.25, // 0.7 ~ 0.95
-      };
-    })
-    .filter((r): r is OcrResult => r !== null);
+  const data = await apiUpload<ApiOCRResponse>('/ocr/prescription', formData);
+
+  const results: OcrResult[] = [];
+
+  for (const item of data.extractedItems) {
+    if (item.candidateProducts.length > 0) {
+      const candidate = item.candidateProducts[0];
+      if (candidate.productName) {
+        const medicines = await searchMedicines(candidate.productName);
+        if (medicines.length > 0) {
+          results.push({
+            medicine: medicines[0],
+            confidence: candidate.score ?? data.ocrConfidence,
+          });
+        }
+      }
+    } else if (item.rawText) {
+      const medicines = await searchMedicines(item.rawText);
+      if (medicines.length > 0) {
+        results.push({
+          medicine: medicines[0],
+          confidence: data.ocrConfidence * 0.8,
+        });
+      }
+    }
+  }
 
   return results;
 }
