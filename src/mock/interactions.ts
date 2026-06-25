@@ -52,7 +52,7 @@ export const interactionRules: InteractionRule[] = [
     subjectId: 'med-003', // 노르바스크(암로디핀)
     subjectName: '노르바스크정 5mg',
     objectType: 'food',
-    objectId: 'food-001', // 자몽
+    objectId: '9eff584f-0a7d-4d4c-89d7-f244ee2bcc45', // 자몽
     objectName: '자몽',
     interactionType: 'effect_increase',
     severity: 'high',
@@ -66,7 +66,7 @@ export const interactionRules: InteractionRule[] = [
     subjectId: 'med-004', // 리피토(아토르바스타틴)
     subjectName: '리피토정 20mg',
     objectType: 'food',
-    objectId: 'food-001', // 자몽
+    objectId: '9eff584f-0a7d-4d4c-89d7-f244ee2bcc45', // 자몽
     objectName: '자몽',
     interactionType: 'effect_increase',
     severity: 'high',
@@ -80,7 +80,7 @@ export const interactionRules: InteractionRule[] = [
     subjectId: 'med-010', // 자낙스(알프라졸람)
     subjectName: '자낙스정 0.25mg',
     objectType: 'food',
-    objectId: 'food-005', // 알코올
+    objectId: 'c3143569-03a0-4ae6-ac95-6c51a455a88e', // 알코올
     objectName: '알코올',
     interactionType: 'effect_increase',
     severity: 'critical',
@@ -94,7 +94,7 @@ export const interactionRules: InteractionRule[] = [
     subjectId: 'med-007', // 메트포르민
     subjectName: '메트포르민정 500mg',
     objectType: 'food',
-    objectId: 'food-005', // 알코올
+    objectId: 'c3143569-03a0-4ae6-ac95-6c51a455a88e', // 알코올
     objectName: '알코올',
     interactionType: 'caution',
     severity: 'high',
@@ -108,7 +108,7 @@ export const interactionRules: InteractionRule[] = [
     subjectId: 'med-011', // 아목시실린
     subjectName: '아목시실린캡슐 500mg',
     objectType: 'food',
-    objectId: 'food-004', // 우유
+    objectId: '1225684c-55bd-4ee3-8cff-6e37d4e95529', // 우유
     objectName: '우유',
     interactionType: 'absorption_decrease',
     severity: 'low',
@@ -122,7 +122,7 @@ export const interactionRules: InteractionRule[] = [
     subjectId: 'med-006', // 와파린
     subjectName: '와파린정 2mg',
     objectType: 'food',
-    objectId: 'food-007', // 시금치
+    objectId: '34a5c48f-813e-4b9d-a722-a4adb151b026', // 시금치
     objectName: '시금치',
     interactionType: 'effect_decrease',
     severity: 'medium',
@@ -136,7 +136,7 @@ export const interactionRules: InteractionRule[] = [
     subjectId: 'med-005', // 신지로이드(레보티록신)
     subjectName: '신지로이드정 0.1mg',
     objectType: 'food',
-    objectId: 'food-002', // 커피
+    objectId: '67a9265a-9425-4ccc-861e-9af841ba5911', // 커피
     objectName: '커피',
     interactionType: 'absorption_decrease',
     severity: 'medium',
@@ -153,7 +153,7 @@ export const interactionRules: InteractionRule[] = [
     subjectId: 'med-005', // 신지로이드(레보티록신)
     subjectName: '신지로이드정 0.1mg',
     objectType: 'supplement',
-    objectId: 'sup-002', // 칼슘
+    objectId: '283f9d20-ba5a-452f-a7ee-8cd801220c2a', // 칼슘
     objectName: '칼슘',
     interactionType: 'absorption_decrease',
     severity: 'medium',
@@ -168,7 +168,7 @@ export const interactionRules: InteractionRule[] = [
     subjectId: 'med-005', // 신지로이드(레보티록신)
     subjectName: '신지로이드정 0.1mg',
     objectType: 'supplement',
-    objectId: 'sup-001', // 철분
+    objectId: '55fa2d9a-c1c0-4692-8473-e29b39317184', // 철분
     objectName: '철분',
     interactionType: 'absorption_decrease',
     severity: 'medium',
@@ -183,7 +183,7 @@ export const interactionRules: InteractionRule[] = [
     subjectId: 'med-006', // 와파린
     subjectName: '와파린정 2mg',
     objectType: 'supplement',
-    objectId: 'sup-004', // 비타민K
+    objectId: '75eb6123-45ec-40fa-b4c2-a74626c59acc', // 비타민K
     objectName: '비타민K',
     interactionType: 'effect_decrease',
     severity: 'high',
@@ -197,7 +197,7 @@ export const interactionRules: InteractionRule[] = [
     subjectId: 'med-006', // 와파린
     subjectName: '와파린정 2mg',
     objectType: 'supplement',
-    objectId: 'sup-005', // 오메가3
+    objectId: 'e995986f-b776-4784-84da-6dd89a952b65', // 오메가3
     objectName: '오메가3',
     interactionType: 'effect_increase',
     severity: 'medium',
@@ -211,7 +211,7 @@ export const interactionRules: InteractionRule[] = [
     subjectId: 'med-002', // 아스피린
     subjectName: '아스피린정 100mg',
     objectType: 'supplement',
-    objectId: 'sup-005', // 오메가3
+    objectId: 'e995986f-b776-4784-84da-6dd89a952b65', // 오메가3
     objectName: '오메가3',
     interactionType: 'caution',
     severity: 'medium',
@@ -225,7 +225,7 @@ export const interactionRules: InteractionRule[] = [
     subjectId: 'med-007', // 메트포르민
     subjectName: '메트포르민정 500mg',
     objectType: 'supplement',
-    objectId: 'sup-006', // 비타민C
+    objectId: 'fc0616c6-283f-4cb0-83ef-b822fb8fdca1', // 비타민C
     objectName: '비타민C',
     interactionType: 'caution',
     severity: 'low',

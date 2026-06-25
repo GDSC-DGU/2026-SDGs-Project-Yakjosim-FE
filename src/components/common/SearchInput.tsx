@@ -17,7 +17,7 @@ export function SearchInput({
   onChange,
   results,
   onSelect,
-  placeholder = '약품명을 검색하세요',
+  placeholder = '약품명으로 검색해봐요',
   isLoading = false,
 }: SearchInputProps) {
   const [isFocused, setIsFocused] = useState(false);
@@ -28,39 +28,37 @@ export function SearchInput({
   return (
     <div ref={wrapperRef} className="relative">
       <div className="relative">
-        <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400" />
+        <Search className="absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
         <Input
           value={value}
           onChange={(e) => onChange(e.target.value)}
           onFocus={() => setIsFocused(true)}
           onBlur={() => setTimeout(() => setIsFocused(false), 200)}
           placeholder={placeholder}
-          className="pl-10 pr-10"
+          className="h-12 rounded-xl pl-10 pr-10"
         />
         {isLoading && (
-          <Loader2 className="absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 animate-spin text-gray-400" />
+          <Loader2 className="absolute right-3.5 top-1/2 h-4 w-4 -translate-y-1/2 animate-spin text-primary" />
         )}
       </div>
 
       {showDropdown && (
-        <div className="absolute z-10 mt-1 w-full rounded-md border border-gray-200 bg-white shadow-lg">
+        <div className="surface-elevated absolute z-10 mt-2 w-full overflow-hidden">
           {isLoading ? (
-            <div className="px-4 py-3 text-sm text-gray-500">검색 중...</div>
+            <div className="px-4 py-3 text-sm text-muted-foreground">검색 중...</div>
           ) : (
             <ul className="max-h-60 overflow-auto py-1">
               {results.map((medicine) => (
                 <li key={medicine.id}>
                   <button
-                    className="w-full px-4 py-2 text-left transition-colors hover:bg-gray-50"
+                    className="w-full px-4 py-2.5 text-left transition-colors hover:bg-muted/50"
                     onMouseDown={(e) => e.preventDefault()}
-                    onClick={() => {
-                      onSelect(medicine);
-                    }}
+                    onClick={() => onSelect(medicine)}
                   >
-                    <p className="text-sm font-medium text-gray-900">
+                    <p className="text-sm font-medium text-foreground">
                       {medicine.productName}
                     </p>
-                    <p className="text-xs text-gray-500">{medicine.manufacturer}</p>
+                    <p className="text-xs text-muted-foreground">{medicine.manufacturer}</p>
                   </button>
                 </li>
               ))}

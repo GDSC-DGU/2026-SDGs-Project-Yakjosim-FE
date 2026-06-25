@@ -1,5 +1,4 @@
 import { X, Plus } from 'lucide-react';
-import { Card, CardContent } from '@/app/components/ui/card';
 import { Button } from '@/app/components/ui/button';
 import type { Medicine } from '@/types';
 
@@ -19,32 +18,34 @@ export function MedicineCard({
   const mainIngredient = medicine.ingredients.find((i) => i.isMain);
 
   return (
-    <Card
-      className={`transition-colors ${
-        selected ? 'border-blue-400 bg-blue-50' : 'hover:border-gray-300'
+    <div
+      className={`rounded-2xl p-3.5 transition-all ${
+        selected
+          ? 'bg-primary/[0.06] shadow-[var(--shadow-xs)]'
+          : 'bg-card shadow-[var(--shadow-sm)] hover:shadow-[var(--shadow-md)]'
       }`}
     >
-      <CardContent className="flex items-center justify-between p-3">
+      <div className="flex items-center justify-between">
         <div className="min-w-0 flex-1">
-          <p className="truncate font-medium text-gray-900">
+          <p className="truncate text-[15px] font-semibold text-foreground">
             {medicine.productName}
           </p>
-          <p className="text-sm text-gray-500">{medicine.manufacturer}</p>
+          <p className="text-sm text-muted-foreground">{medicine.manufacturer}</p>
           {mainIngredient && (
-            <p className="text-xs text-gray-400">
+            <p className="mt-0.5 text-xs text-muted-foreground/70">
               {mainIngredient.ingredient.nameKo} {mainIngredient.amount}
               {mainIngredient.unit}
             </p>
           )}
         </div>
-        <div className="ml-2 flex-shrink-0">
+        <div className="ml-2 shrink-0">
           {onRemove && (
             <Button
               variant="ghost"
               size="icon"
               onClick={() => onRemove(medicine.id)}
               aria-label="제거"
-              className="h-8 w-8 text-gray-400 hover:text-red-500"
+              className="h-8 w-8 rounded-lg text-muted-foreground hover:text-destructive"
             >
               <X className="h-4 w-4" />
             </Button>
@@ -55,13 +56,13 @@ export function MedicineCard({
               size="icon"
               onClick={() => onSelect(medicine)}
               aria-label="추가"
-              className="h-8 w-8 text-gray-400 hover:text-blue-500"
+              className="h-8 w-8 rounded-lg text-muted-foreground hover:text-primary"
             >
               <Plus className="h-4 w-4" />
             </Button>
           )}
         </div>
-      </CardContent>
-    </Card>
+      </div>
+    </div>
   );
 }

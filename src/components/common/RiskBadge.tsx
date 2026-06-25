@@ -58,7 +58,7 @@ export function RiskBadge({ severity, className = '' }: RiskBadgeProps) {
       role="status"
       aria-label={`${ariaPrefix}: ${label}`}
       data-slot="risk-badge"
-      className={`inline-flex items-center gap-1 rounded-full border px-2.5 py-0.5 text-xs font-medium whitespace-nowrap ${color} ${className}`}
+      className={`inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 text-xs font-semibold whitespace-nowrap ${color} ${className}`}
     >
       <Icon className="h-3.5 w-3.5" aria-hidden="true" />
       {label}

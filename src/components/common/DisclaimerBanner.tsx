@@ -1,5 +1,4 @@
 import { Info } from 'lucide-react';
-import { Alert, AlertDescription } from '@/app/components/ui/alert';
 
 interface DisclaimerBannerProps {
   className?: string;
@@ -7,12 +6,11 @@ interface DisclaimerBannerProps {
 
 export function DisclaimerBanner({ className = '' }: DisclaimerBannerProps) {
   return (
-    <Alert className={`border-disclaimer-border bg-disclaimer-bg ${className}`}>
-      <Info className="h-4 w-4 text-disclaimer-icon" aria-hidden="true" />
-      <AlertDescription className="text-xs text-disclaimer-fg">
-        본 서비스는 의료 진단을 대체하지 않습니다. 복용 관련 결정은 반드시
-        의사·약사와 상담하세요.
-      </AlertDescription>
-    </Alert>
+    <div className={`flex items-start gap-3 rounded-2xl bg-disclaimer-bg p-4 ${className}`}>
+      <Info className="h-4 w-4 shrink-0 text-disclaimer-icon mt-0.5" aria-hidden="true" />
+      <p className="text-xs leading-relaxed text-disclaimer-fg">
+        이 서비스는 의료 진단을 대체하지 않아요. 복용 관련 결정은 반드시 의사·약사와 상담해 주세요.
+      </p>
+    </div>
   );
 }

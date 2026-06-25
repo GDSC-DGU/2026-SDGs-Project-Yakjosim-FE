@@ -7,12 +7,12 @@ interface ChipProps {
 
 const variantStyles = {
   food: {
-    active: 'bg-green-100 text-green-700 border-green-300',
-    inactive: 'bg-white text-gray-600 border-gray-300 hover:border-green-300',
+    active: 'bg-risk-safe-bg text-risk-safe-fg shadow-[var(--shadow-xs)]',
+    inactive: 'bg-muted text-foreground hover:bg-accent',
   },
   supplement: {
-    active: 'bg-purple-100 text-purple-700 border-purple-300',
-    inactive: 'bg-white text-gray-600 border-gray-300 hover:border-purple-300',
+    active: 'bg-risk-consult-bg text-risk-consult-fg shadow-[var(--shadow-xs)]',
+    inactive: 'bg-muted text-foreground hover:bg-accent',
   },
 };
 
@@ -28,7 +28,7 @@ export function Chip({
   return (
     <button
       onClick={onToggle}
-      className={`inline-flex items-center rounded-full border px-3 py-1.5 text-sm font-medium transition-colors ${colorClass}`}
+      className={`inline-flex items-center rounded-full px-3.5 py-1.5 text-sm font-medium transition-all duration-200 ${colorClass}`}
     >
       {label}
     </button>
