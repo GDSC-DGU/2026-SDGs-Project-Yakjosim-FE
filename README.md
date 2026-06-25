@@ -19,6 +19,8 @@
 ---
 
 ## Preview
+<img src="./public/main_readme.png" alt="약 조심 프리뷰" />
+
 
 ### Desktop
 
