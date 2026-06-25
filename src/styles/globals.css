@@ -1,93 +1,115 @@
 /* ─── 3-Layer Design Token System (TDS philosophy) ──────────
- * Layer 1 — Base:      raw color palette
+ * Layer 1 — Base:      raw OKLCH color palette
  * Layer 2 — Semantic:  domain-level meaning (risk levels)
  * Layer 3 — Component: UI-element-specific bindings
  * ──────────────────────────────────────────────────────────── */
 
-/* Layer 1 — Base palette */
+/* Layer 1 — Base palette (OKLCH) */
 :root {
-  --base-red-500: #DC2626;
-  --base-red-100: #FEE2E2;
-  --base-red-700: #B91C1C;
-  --base-orange-500: #F59E0B;
-  --base-orange-100: #FEF3C7;
-  --base-orange-800: #78350F;
-  --base-green-500: #16A34A;
-  --base-green-100: #DCFCE7;
-  --base-green-800: #14532D;
-  --base-blue-500: #3B82F6;
-  --base-blue-100: #DBEAFE;
-  --base-blue-800: #1E3A8A;
-  --base-violet-500: #8B5CF6;
-  --base-violet-100: #EDE9FE;
-  --base-violet-800: #4C1D95;
-  --base-gray-500: #6B7280;
-  --base-gray-100: #F3F4F6;
-  --base-gray-800: #1F2937;
+  --base-red-50: oklch(0.97 0.015 22);
+  --base-red-100: oklch(0.93 0.04 22);
+  --base-red-500: oklch(0.55 0.22 22);
+  --base-red-600: oklch(0.50 0.22 22);
+  --base-red-700: oklch(0.42 0.18 22);
+
+  --base-amber-50: oklch(0.97 0.025 80);
+  --base-amber-100: oklch(0.93 0.06 80);
+  --base-amber-500: oklch(0.78 0.16 70);
+  --base-amber-600: oklch(0.68 0.16 55);
+  --base-amber-800: oklch(0.42 0.08 55);
+
+  --base-green-50: oklch(0.97 0.02 155);
+  --base-green-100: oklch(0.93 0.04 155);
+  --base-green-500: oklch(0.62 0.17 155);
+  --base-green-600: oklch(0.55 0.16 155);
+  --base-green-800: oklch(0.38 0.08 155);
+
+  --base-blue-50: oklch(0.97 0.015 250);
+  --base-blue-100: oklch(0.93 0.04 250);
+  --base-blue-500: oklch(0.55 0.17 250);
+  --base-blue-600: oklch(0.50 0.16 250);
+  --base-blue-800: oklch(0.35 0.08 250);
+
+  --base-violet-50: oklch(0.97 0.02 300);
+  --base-violet-100: oklch(0.92 0.05 300);
+  --base-violet-500: oklch(0.55 0.18 300);
+  --base-violet-600: oklch(0.48 0.17 300);
+  --base-violet-800: oklch(0.35 0.08 300);
+
+  --base-gray-50: oklch(0.975 0.003 264);
+  --base-gray-100: oklch(0.955 0.005 264);
+  --base-gray-200: oklch(0.92 0.004 264);
+  --base-gray-300: oklch(0.87 0.006 264);
+  --base-gray-400: oklch(0.72 0.01 264);
+  --base-gray-500: oklch(0.58 0.015 264);
+  --base-gray-600: oklch(0.45 0.015 264);
+  --base-gray-700: oklch(0.35 0.015 264);
+  --base-gray-800: oklch(0.25 0.015 264);
+  --base-gray-900: oklch(0.18 0.02 264);
 }
 
 /* Layer 2 — Semantic: risk severity */
 :root {
   --risk-critical: var(--base-red-500);
-  --risk-critical-fg: #FFFFFF;
-  --risk-critical-bg: var(--base-red-100);
-  --risk-critical-border: #FCA5A5;
+  --risk-critical-fg: var(--base-red-700);
+  --risk-critical-bg: var(--base-red-50);
+  --risk-critical-border: var(--base-red-100);
 
-  --risk-warning: var(--base-orange-500);
-  --risk-warning-fg: var(--base-orange-800);
-  --risk-warning-bg: var(--base-orange-100);
-  --risk-warning-border: #FCD34D;
+  --risk-warning: var(--base-amber-500);
+  --risk-warning-fg: var(--base-amber-800);
+  --risk-warning-bg: var(--base-amber-50);
+  --risk-warning-border: var(--base-amber-100);
 
   --risk-safe: var(--base-green-500);
   --risk-safe-fg: var(--base-green-800);
-  --risk-safe-bg: var(--base-green-100);
-  --risk-safe-border: #86EFAC;
+  --risk-safe-bg: var(--base-green-50);
+  --risk-safe-border: var(--base-green-100);
 
   --risk-info: var(--base-blue-500);
   --risk-info-fg: var(--base-blue-800);
-  --risk-info-bg: var(--base-blue-100);
-  --risk-info-border: #93C5FD;
+  --risk-info-bg: var(--base-blue-50);
+  --risk-info-border: var(--base-blue-100);
 
   --risk-consult: var(--base-violet-500);
   --risk-consult-fg: var(--base-violet-800);
-  --risk-consult-bg: var(--base-violet-100);
-  --risk-consult-border: #C4B5FD;
+  --risk-consult-bg: var(--base-violet-50);
+  --risk-consult-border: var(--base-violet-100);
 
   --risk-unknown: var(--base-gray-500);
-  --risk-unknown-fg: var(--base-gray-800);
-  --risk-unknown-bg: var(--base-gray-100);
-  --risk-unknown-border: #D1D5DB;
+  --risk-unknown-fg: var(--base-gray-700);
+  --risk-unknown-bg: var(--base-gray-50);
+  --risk-unknown-border: var(--base-gray-200);
 }
 
 /* Layer 3 — Component: risk badge */
 :root {
   --badge-critical-bg: var(--risk-critical-bg);
-  --badge-critical-fg: var(--base-red-700);
+  --badge-critical-fg: var(--risk-critical-fg);
   --badge-critical-border: var(--risk-critical-border);
   --badge-critical-icon: var(--risk-critical);
 
   --badge-warning-bg: var(--risk-warning-bg);
-  --badge-warning-fg: var(--base-orange-800);
+  --badge-warning-fg: var(--risk-warning-fg);
   --badge-warning-border: var(--risk-warning-border);
   --badge-warning-icon: var(--risk-warning);
 
   --badge-safe-bg: var(--risk-safe-bg);
-  --badge-safe-fg: var(--base-green-800);
+  --badge-safe-fg: var(--risk-safe-fg);
   --badge-safe-border: var(--risk-safe-border);
   --badge-safe-icon: var(--risk-safe);
 
   --badge-info-bg: var(--risk-info-bg);
-  --badge-info-fg: var(--base-blue-800);
+  --badge-info-fg: var(--risk-info-fg);
   --badge-info-border: var(--risk-info-border);
   --badge-info-icon: var(--risk-info);
 
   --badge-consult-bg: var(--risk-consult-bg);
-  --badge-consult-fg: var(--base-violet-800);
+  --badge-consult-fg: var(--risk-consult-fg);
   --badge-consult-border: var(--risk-consult-border);
   --badge-consult-icon: var(--risk-consult);
 
   --badge-unknown-bg: var(--risk-unknown-bg);
-  --badge-unknown-fg: var(--base-gray-500);
+  --badge-unknown-fg: var(--risk-unknown-fg);
   --badge-unknown-border: var(--risk-unknown-border);
   --badge-unknown-icon: var(--risk-unknown);
 }
@@ -100,46 +122,44 @@
   --disclaimer-icon: var(--risk-warning);
 }
 
+/* ── Dark mode overrides ──────────────────────────────────── */
 .dark {
-  /* Layer 1 dark overrides */
-  --base-red-100: #450A0A;
-  --base-red-700: #FCA5A5;
-  --base-orange-100: #451A03;
-  --base-orange-800: #FCD34D;
-  --base-green-100: #052E16;
-  --base-green-800: #86EFAC;
-  --base-blue-100: #172554;
-  --base-blue-800: #93C5FD;
-  --base-violet-100: #2E1065;
-  --base-violet-800: #C4B5FD;
-  --base-gray-100: #1F2937;
-  --base-gray-800: #D1D5DB;
+  --base-red-50: oklch(0.22 0.04 22);
+  --base-red-100: oklch(0.28 0.06 22);
+  --base-red-700: oklch(0.78 0.12 22);
+  --base-amber-50: oklch(0.22 0.03 55);
+  --base-amber-100: oklch(0.28 0.05 55);
+  --base-amber-800: oklch(0.82 0.1 70);
+  --base-green-50: oklch(0.20 0.03 155);
+  --base-green-100: oklch(0.26 0.05 155);
+  --base-green-800: oklch(0.78 0.1 155);
+  --base-blue-50: oklch(0.20 0.03 250);
+  --base-blue-100: oklch(0.26 0.05 250);
+  --base-blue-800: oklch(0.78 0.1 250);
+  --base-violet-50: oklch(0.20 0.04 300);
+  --base-violet-100: oklch(0.26 0.06 300);
+  --base-violet-800: oklch(0.78 0.1 300);
+  --base-gray-50: oklch(0.18 0.01 264);
+  --base-gray-100: oklch(0.22 0.01 264);
+  --base-gray-200: oklch(0.26 0.01 264);
+  --base-gray-700: oklch(0.78 0.01 264);
 
-  /* Layer 2 dark overrides */
-  --risk-critical-fg: #FCA5A5;
-  --risk-critical-border: #7F1D1D;
-  --risk-warning-fg: #FCD34D;
-  --risk-warning-border: #78350F;
-  --risk-safe-fg: #86EFAC;
-  --risk-safe-border: #14532D;
-  --risk-info-fg: #93C5FD;
-  --risk-info-border: #1E3A8A;
-  --risk-consult-fg: #C4B5FD;
-  --risk-consult-border: #4C1D95;
-  --risk-unknown-fg: #D1D5DB;
-  --risk-unknown-border: #374151;
+  --risk-critical-border: oklch(0.32 0.08 22);
+  --risk-warning-border: oklch(0.32 0.06 55);
+  --risk-safe-border: oklch(0.30 0.06 155);
+  --risk-info-border: oklch(0.30 0.06 250);
+  --risk-consult-border: oklch(0.30 0.06 300);
+  --risk-unknown-border: oklch(0.30 0.01 264);
 
-  /* Layer 3 dark — badge */
-  --badge-critical-fg: #FCA5A5;
-  --badge-warning-fg: #FCD34D;
-  --badge-safe-fg: #86EFAC;
-  --badge-info-fg: #93C5FD;
-  --badge-consult-fg: #C4B5FD;
-  --badge-unknown-fg: #D1D5DB;
+  --badge-critical-fg: oklch(0.78 0.12 22);
+  --badge-warning-fg: oklch(0.82 0.1 70);
+  --badge-safe-fg: oklch(0.78 0.1 155);
+  --badge-info-fg: oklch(0.78 0.1 250);
+  --badge-consult-fg: oklch(0.78 0.1 300);
+  --badge-unknown-fg: oklch(0.72 0.01 264);
 }
 
 @theme inline {
-  /* Semantic risk tokens */
   --color-risk-critical: var(--risk-critical);
   --color-risk-critical-fg: var(--risk-critical-fg);
   --color-risk-critical-bg: var(--risk-critical-bg);
@@ -165,7 +185,6 @@
   --color-risk-unknown-bg: var(--risk-unknown-bg);
   --color-risk-unknown-border: var(--risk-unknown-border);
 
-  /* Component badge tokens */
   --color-badge-critical-bg: var(--badge-critical-bg);
   --color-badge-critical-fg: var(--badge-critical-fg);
   --color-badge-critical-border: var(--badge-critical-border);
@@ -191,27 +210,39 @@
   --color-badge-unknown-border: var(--badge-unknown-border);
   --color-badge-unknown-icon: var(--badge-unknown-icon);
 
-  /* Component disclaimer tokens */
   --color-disclaimer-bg: var(--disclaimer-bg);
   --color-disclaimer-fg: var(--disclaimer-fg);
   --color-disclaimer-border: var(--disclaimer-border);
   --color-disclaimer-icon: var(--disclaimer-icon);
 }
 
-/* ─── Breakpoint tokens ──────────────────────────────────────
- * Single source of truth for responsive thresholds.
- * mobile   : 0      – 719px
- * tablet   : 720px  – 1439px
- * desktop  : 1440px – ∞
- * Update these variables to retune the entire app. JS reads them
- * via getComputedStyle in useBreakpoint().
+/* ─── Elevation System (layered shadows) ────────────────────
+ * Replaces border-based card separation with depth via shadow.
  * ──────────────────────────────────────────────────────────── */
 :root {
-  --bp-tablet: 720px;
-  --bp-desktop: 1440px;
+  --shadow-xs: 0 1px 2px oklch(0 0 0 / 0.04);
+  --shadow-sm: 0 1px 3px oklch(0 0 0 / 0.04), 0 1px 2px oklch(0 0 0 / 0.02);
+  --shadow-md: 0 4px 12px oklch(0 0 0 / 0.05), 0 2px 4px oklch(0 0 0 / 0.03);
+  --shadow-lg: 0 8px 28px oklch(0 0 0 / 0.08), 0 2px 8px oklch(0 0 0 / 0.04);
+  --shadow-xl: 0 20px 56px oklch(0 0 0 / 0.1), 0 4px 16px oklch(0 0 0 / 0.05);
 }
 
-/* Senior mode: increases the root font-size variable used by the project (theme.css sets `html { font-size: var(--font-size) }`). All rem-based sizing scales together. */
+.dark {
+  --shadow-xs: 0 1px 2px oklch(0 0 0 / 0.2);
+  --shadow-sm: 0 1px 3px oklch(0 0 0 / 0.2), 0 1px 2px oklch(0 0 0 / 0.15);
+  --shadow-md: 0 4px 12px oklch(0 0 0 / 0.25), 0 2px 4px oklch(0 0 0 / 0.2);
+  --shadow-lg: 0 8px 28px oklch(0 0 0 / 0.35), 0 2px 8px oklch(0 0 0 / 0.2);
+  --shadow-xl: 0 20px 56px oklch(0 0 0 / 0.4), 0 4px 16px oklch(0 0 0 / 0.25);
+}
+
+/* ─── Breakpoints ───────────────────────────────────────────
+ * Mobile: 0–1023px   Desktop: 1024px+
+ * ──────────────────────────────────────────────────────────── */
+:root {
+  --bp-desktop: 1024px;
+}
+
+/* ─── Senior mode ──────────────────────────────────────────── */
 :root[data-senior="true"] {
   --font-size: 18px;
 }
@@ -267,7 +298,7 @@
   width: min(calc(100% - 1.5rem), 36rem);
   max-height: calc(100dvh - 1.5rem);
   overflow-y: auto;
-  border-radius: 1rem;
+  border-radius: 1.25rem;
   padding: 1.25rem;
 }
 
@@ -326,48 +357,157 @@
   grid-template-columns: 1fr;
 }
 
-/* ─── Landing page animations ────────────────────────────── */
+/* ─── Custom easing ─────────────────────────────────────────
+ * "Toss spring" — fast start, gentle settle
+ * ──────────────────────────────────────────────────────────── */
+:root {
+  --ease-spring: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-out-expo: cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+/* ─── Animations ────────────────────────────────────────────── */
 @keyframes fade-in {
   from { opacity: 0; }
   to   { opacity: 1; }
 }
 
 @keyframes slide-up {
-  from { opacity: 0; transform: translateY(24px); }
+  from { opacity: 0; transform: translateY(20px); }
   to   { opacity: 1; transform: translateY(0); }
 }
 
 @keyframes slide-in-right {
-  from { opacity: 0; transform: translateX(20px); }
+  from { opacity: 0; transform: translateX(16px); }
   to   { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes scale-in {
+  from { opacity: 0; transform: scale(0.95); }
+  to   { opacity: 1; transform: scale(1); }
 }
 
 @keyframes float {
   0%, 100% { transform: translateY(0); }
-  50%      { transform: translateY(-6px); }
+  50%      { transform: translateY(-8px); }
 }
 
 @keyframes pulse-ring {
-  0%   { transform: scale(1);   opacity: 0.4; }
-  100% { transform: scale(1.6); opacity: 0; }
+  0%   { transform: scale(1);   opacity: 0.3; }
+  100% { transform: scale(1.8); opacity: 0; }
+}
+
+@keyframes shimmer {
+  0%   { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+@keyframes ticker-scroll {
+  0%   { transform: translateY(0); }
+  100% { transform: translateY(-50%); }
+}
+
+@keyframes gradient-shift {
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
 }
 
 .animate-fade-in {
-  animation: fade-in 0.6s ease-out both;
+  animation: fade-in 0.5s var(--ease-spring) both;
 }
 
 .animate-slide-up {
-  animation: slide-up 0.6s ease-out both;
+  animation: slide-up 0.6s var(--ease-spring) both;
 }
 
 .animate-slide-in-right {
-  animation: slide-in-right 0.5s ease-out both;
+  animation: slide-in-right 0.5s var(--ease-spring) both;
+}
+
+.animate-scale-in {
+  animation: scale-in 0.4s var(--ease-spring) both;
 }
 
 .animate-float {
-  animation: float 3s ease-in-out infinite;
+  animation: float 4s ease-in-out infinite;
 }
 
 .animate-pulse-ring {
-  animation: pulse-ring 2s ease-out infinite;
+  animation: pulse-ring 2.5s ease-out infinite;
+}
+
+.animate-shimmer {
+  background: linear-gradient(90deg, transparent 25%, oklch(1 0 0 / 0.1) 50%, transparent 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}
+
+.animate-gradient {
+  background-size: 200% 200%;
+  animation: gradient-shift 8s ease infinite;
+}
+
+/* ─── Utility classes ───────────────────────────────────────── */
+.glass {
+  background: oklch(1 0 0 / 0.82);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+}
+
+.dark .glass {
+  background: oklch(0.14 0.01 264 / 0.85);
+}
+
+.surface-card {
+  background: var(--card);
+  box-shadow: var(--shadow-sm);
+  border-radius: 1.25rem;
+}
+
+.surface-card-hover {
+  transition: transform 0.2s var(--ease-spring), box-shadow 0.2s var(--ease-spring);
+}
+
+.surface-card-hover:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.surface-elevated {
+  background: var(--card);
+  box-shadow: var(--shadow-lg);
+  border-radius: 1.25rem;
+}
+
+/* ─── Scrollbar ─────────────────────────────────────────────── */
+:root {
+  scrollbar-width: thin;
+  scrollbar-color: var(--base-gray-300) transparent;
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--base-gray-300);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--base-gray-400);
+}
+
+.scrollbar-none {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.scrollbar-none::-webkit-scrollbar {
+  display: none;
 }
